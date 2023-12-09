@@ -11,7 +11,7 @@ INSERT INTO policlinica.angajat (cnp_angajat, id_departament, id_functie, nume, 
 INSERT INTO policlinica.angajat (cnp_angajat, id_departament, id_functie, nume, prenume, adresa, numar_telefon, email, iban, nr_contract, data_angajare, salariu_negociat, nr_ore) VALUES ('2345678901234', '1', '3', 'Ionescu', 'Ion', 'Str. Libertății, Nr. 25, Cluj-Napoca', '0723456789', 'ion.ionescu@email.com', 'RO9876543210987654321098', '54321', '2021-08-20', '7500', '38');
 INSERT INTO policlinica.angajat (cnp_angajat, id_departament, id_functie, nume, prenume, adresa, numar_telefon, email, iban, nr_contract, data_angajare, salariu_negociat, nr_ore) VALUES ('3456789012345', '3', '4', 'Radu', 'Maria', 'Str. Mihai Viteazu, Nr. 5, Timișoara', '0734567890', 'maria.radu@email.com', 'RO5678901234567890123456', '12345', '2023-01-10', '6758', '38');
 
-INSERT INTO angajati (cnp_angajat, id_utilizator, id_departament, id_functie, nume, prenume, adresa, numar_telefon, email, iban, nr_contract, data_angajare, salariu_negociat, nr_ore)
+INSERT INTO angajat (cnp_angajat, id_utilizator, id_departament, id_functie, nume, prenume, adresa, numar_telefon, email, iban, nr_contract, data_angajare, salariu_negociat, nr_ore)
 VALUES
     ('1231231231231', NULL, 3, 4, 'Simion', 'Andreea', 'Strada Soarelui nr. 25', '0700000000', 'andreea.simion@example.com', 'RO09BTRL0000000000000001', 1011, '2023-07-01', 5200, 42),
     ('2342342342342', NULL, 3, 5, 'Georgescu', 'Cristina', 'Bulevardul Luna nr. 15', '0700000001', 'cristina.georgescu@example.com', 'RO09CECE0000000000000002', 1012, '2023-08-02', 4900, 37),
@@ -60,6 +60,8 @@ VALUES
     ('4900412345678', NULL, 3, 5, 'Dumitru', 'Maria', 'Strada Independentei nr. 8', '0745678901', 'maria.dumitru@example.com', 'RO09BTRL0001234567890123', 1004, '2023-04-30', 5100, 42),
     ('5900501234567', NULL, 3, 5, 'Stoica', 'Gabriel', 'Bulevardul Soarelui nr. 12', '0756789012', 'gabriel.stoica@example.com', 'RO09CECE0001234567890123', 1005, '2023-05-15', 4900, 37);
 
+INSERT INTO `policlinica`.`angajat` (`cnp_angajat`, `id_departament`, `id_functie`, `nume`, `prenume`, `adresa`, `numar_telefon`, `email`, `iban`, `nr_contract`, `data_angajare`, `salariu_negociat`, `nr_ore`) VALUES ('1970912345678', '1', '1', 'Ionescu', 'Maria', 'Bd. Libertății, nr. 25, Cluj-Napoca', '0733123456', 'maria.ionescu@email.com', 'RO45INGB9876543210123456', '2', '2021-05-20', '4500', '35');
+INSERT INTO `policlinica`.`angajat` (`cnp_angajat`, `id_departament`, `id_functie`, `nume`, `prenume`, `adresa`, `numar_telefon`, `email`, `iban`, `nr_contract`, `data_angajare`, `salariu_negociat`, `nr_ore`) VALUES ('1990223456789', '2', '2', 'Radu', 'Ana', 'Str. Crizantemelor, nr. 7, Timișoara', '0711123456', 'ana.radu@email.com', 'RO89BCMR1234567890123456', '3', '2023-03-10', '5500', '38');
 
 
 
