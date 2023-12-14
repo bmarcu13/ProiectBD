@@ -1,0 +1,36 @@
+MODUL 1
+// Pentru inspector
+- cautare angajat si afisare date in functie de nume, prenume, functie
+
+// Receptionerii, asistentii medicali si medicii
+- vizualizarea informatiilor personale (orarul pentru luna în curs, pentru fiecare zi indicându-se intervalul orar și locația, tratând și situațiile în care nu
+există nici un program de lucru specificat sau angajatul se află în concediu) BOGDAN
+
+MODUL 2
+// Pentru experti financiari
+- vizualizare profituri si afisarea lor RARES
+- rapoarte profit medic RARES
+- rapoarte profit pe locatie RARES
+- rapoarte profit specialitate medicala BOGDAN
+
+// Pentru fiecare angajat
+- fiecare angajat poate sa-si vada salariul BOGDAN
+- fiecare medic poate vizualiza profitul generat de el BOGDAN
+
+MODUL 3
+// Pentru receptioner
+- crearea unei programari BOGDAN
+- inregistrarea unui pacient in momentul in care se prezinta in policlinica BOGDAN
+- emiterea de bon fiscal dupa consultatie BOGDAN
+
+// Pentru asistentul medical
+- poate completa analizele medicale in rapoarte corespunzatoare pacientilor inregistrati BOGDAN
+- poate valida rapoartele de analize BOGDAN
+- poate vizualiza rapoartele medicale BOGDAN
+
+// Pentru medic
+- vizualizarea pacientilor programati pentru ziua curenta la el RARES
+- vizualizarea istoricului pacientului RARES
+- completarea rapoartelor medicale RARES
+- gestionarea serviciilor medicale (adaugare, stergere) RARES
+- parafarea unui raport medical RARES
