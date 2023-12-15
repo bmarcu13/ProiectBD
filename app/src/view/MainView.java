@@ -12,7 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class MainView extends JPanel implements IView {
+public class MainView extends JPanel
+{
 	
 	private CardLayout cardLayout = new CardLayout();
 	
@@ -36,7 +37,6 @@ public class MainView extends JPanel implements IView {
 		initComponent();
 	}
 
-	@Override
 	public void initComponent() {
 		setLayout(new BorderLayout());
 		

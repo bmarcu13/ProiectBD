@@ -6,12 +6,12 @@ import java.net.PasswordAuthentication;
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException;
 
-import app.IController;
 import model.AuthenticationService;
 import view.ApplicationView;
 import view.LoginView;
 
-public class LoginController implements IController {
+public class LoginController
+{
 	private LoginView loginView;
 	private AuthenticationService authenticationService;
 	private ApplicationView applicationView;
@@ -34,16 +34,6 @@ public class LoginController implements IController {
 				signIn(passwordAuthentication);
 			}
 		});
-	}
-	
-	public boolean isAvailable()
-	{
-		return !authenticationService.getIsSignedIn();
-	}
-	
-	public void ShowComponent()
-	{
-//		applicationView.showCardComponent("LOGIN");
 	}
 	
 	private void collectCredentials()

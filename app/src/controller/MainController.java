@@ -1,10 +1,10 @@
 package controller;
 
-import app.IController;
 import view.ApplicationView;
 import view.MainView;
 
-public class MainController implements IController{
+public class MainController
+{
 	
 	private MainView mainView;
 	private ApplicationView appApplicationView;
@@ -34,15 +34,4 @@ public class MainController implements IController{
 			mainView.switchTab(MainView.MEDICAL_TAB);
 		});
 	}
-	
-	public boolean isAvailable()
-	{
-		return true;
-	}
-	
-	@Override
-	public void ShowComponent() {
-
-	}
-
 }

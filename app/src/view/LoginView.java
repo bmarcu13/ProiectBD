@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class LoginView extends JPanel implements IView
+public class LoginView extends JPanel
 {
 	
 	private JPanel inputPanel = new JPanel();
@@ -25,11 +25,10 @@ public class LoginView extends JPanel implements IView
 	
 	public LoginView() 
 	{
-		initComponent();
+		initComponen();
 	}
 	
-	@Override
-	public void initComponent() {
+	public void initComponen() {
 		setSize(new Dimension(1080, 720));
 		setLayout(new GridBagLayout());
 		
