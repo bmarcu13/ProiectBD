@@ -2,11 +2,12 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.PasswordAuthentication;
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException;
 
+import exception.IncorrectCredentialsException;
 import model.AuthenticationService;
+import model.Credentials;
 import view.ApplicationView;
 import view.LoginView;
 
@@ -15,8 +16,6 @@ public class LoginController
 	private LoginView loginView;
 	private AuthenticationService authenticationService;
 	private ApplicationView applicationView;
-	
-	PasswordAuthentication passwordAuthentication;
 	
 	public LoginController(LoginView _loginView, AuthenticationService _auAuthenticationService, ApplicationView _aplicationView)
 	{
@@ -30,35 +29,33 @@ public class LoginController
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				collectCredentials();
-				signIn(passwordAuthentication);
+				signIn(collectCredentials());
 			}
 		});
 	}
 	
-	private void collectCredentials()
+	private Credentials collectCredentials()
 	{
-		passwordAuthentication = new PasswordAuthentication(loginView.getUsername(), loginView.getPassword());
+		return new Credentials(loginView.getUsername(), loginView.getPassword());
 	}
 	
-	private void signIn(PasswordAuthentication credentials)
+	private void signIn(Credentials credentials)
 	{
 		try
 		{
-			authenticationService.signIn(passwordAuthentication);
+			authenticationService.signIn(credentials);
 			applicationView.showCardComponent("MAIN");
-		}
-		catch(SQLTimeoutException ex)
-		{
-			System.out.println(ex.getMessage());
 		}
 		catch(SQLException ex)
 		{
-			System.out.println(ex.getMessage());
+			loginView.setErrorMessage("Internal error.");
+			loginView.showError();
 		}
-		finally
+		catch(IncorrectCredentialsException ex)
 		{
-			
+			loginView.setErrorMessage("Incorrect credentials.");
+			loginView.showError();
+			System.out.println(ex);
 		}
 	}
 	

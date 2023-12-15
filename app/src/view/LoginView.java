@@ -17,6 +17,7 @@ public class LoginView extends JPanel
 	private JTextField usernameTextField = new JTextField(20);
 	private JPasswordField passwordTextField = new JPasswordField(20);
 	
+	private JLabel errorMessageLabel = new JLabel();
 	private JLabel titleLabel = new JLabel("Login");
 	private JLabel usernameLabel = new JLabel("Username");
 	private JLabel passwordLabel = new JLabel("Password");
@@ -33,15 +34,19 @@ public class LoginView extends JPanel
 		setLayout(new GridBagLayout());
 		
 		inputPanel.setBackground(Color.white);
-		inputPanel.setLayout(new GridLayout(7, 1));
+		inputPanel.setLayout(new GridLayout(8, 1));
 		inputPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 	
 		
 		usernameTextField.setPreferredSize(new Dimension(200, 30));
 		passwordTextField.setPreferredSize(new Dimension(200, 30));
 		
+		errorMessageLabel.setForeground(Color.red);
+		errorMessageLabel.setVisible(false);
+		
 		titleLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
 		
+		inputPanel.add(errorMessageLabel);
 		inputPanel.add(titleLabel);
 		inputPanel.add(usernameLabel);
 		inputPanel.add(usernameTextField);
@@ -58,9 +63,24 @@ public class LoginView extends JPanel
 		return usernameTextField.getText();
 	}
 	
-	public char[] getPassword()
+	public String getPassword()
 	{
-		return passwordTextField.getPassword();
+		return String.valueOf(passwordTextField.getPassword());
+	}
+	
+	public void setErrorMessage(String errorMessage)
+	{
+		errorMessageLabel.setText(errorMessage);
+	}
+	
+	public void showError()
+	{
+		errorMessageLabel.setVisible(true);
+	}
+	
+	public void hideError()
+	{
+		errorMessageLabel.setVisible(false);
 	}
 	
 	public void setLoginButtonActionListener(ActionListener actionListener)
