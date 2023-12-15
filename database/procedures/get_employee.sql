@@ -1,6 +1,6 @@
 DELIMITER //
 
-CREATE PROCEDURE cauta_angajat(IN param_nume VARCHAR(20), IN param_prenume VARCHAR(20), IN param_denumire_functie VARCHAR(45))
+CREATE PROCEDURE get_employee(IN param_nume VARCHAR(20), IN param_prenume VARCHAR(20), IN param_denumire_functie VARCHAR(45))
 BEGIN
 
 SELECT *
