@@ -9,8 +9,7 @@ import view.ApplicationView;
 import view.LoginView;
 import view.MainView;
 
-public class Application {
-	
+public class Application {	
 	private AuthenticationService authenticationService = new AuthenticationService();
 	
 	private ApplicationView applicationView = new ApplicationView();
