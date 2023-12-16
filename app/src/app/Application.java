@@ -17,9 +17,8 @@ public class Application {
 	private MainController mainController;
 	
 	
-	public Application (ApplicationView _applicationView)
+	public Application ()
 	{
-		this.applicationView = _applicationView;
 		this.loginController = new LoginController(new LoginView(), authenticationService, applicationView);
 		this.mainController = new MainController(new MainView(), applicationView);
 	}
