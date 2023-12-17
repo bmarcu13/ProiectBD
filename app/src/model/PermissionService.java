@@ -38,6 +38,8 @@ public class PermissionService {
 				userPermission = PERMISSION_MEDICAL;
 				break;			
 			}
+			
+			isInitialized = true;
 		}
 		else
 		{

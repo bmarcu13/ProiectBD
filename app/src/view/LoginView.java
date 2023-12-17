@@ -29,7 +29,7 @@ public class LoginView extends JPanel
 		initComponen();
 	}
 	
-	public void initComponen() {
+	public void initComponent() {
 		setSize(new Dimension(1080, 720));
 		setLayout(new GridBagLayout());
 		
