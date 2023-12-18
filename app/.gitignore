@@ -1,0 +1,43 @@
+#Eclipse excludes 
+
+/bin/
+.classpath
+.project
+.settings/
+
+.gradle/
+build/
+
+#IntelliJ excldes
+
+.idea/
+
+# Compiled bytecode
+*.class
+
+# Log files
+*.log
+
+# User-specific files
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+
+# Sensitive or private configuration files
+.idea/dataSources.ids
+.idea/dataSources.xml
+
+# Gradle files
+.idea/gradle.xml
+.idea/libraries
+
+# Caches and indices
+.idea/caches
+.idea/codeStyles
+.idea/dynamic.xml
+.idea/inspectionProfiles
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes
+.idea/vcs.xml
+.idea/workspace.xml
