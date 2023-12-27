@@ -17,10 +17,6 @@ public class MainView extends JPanel
 	
 	private CardLayout cardLayout = new CardLayout();
 	
-	private HRManagementView hrManagementView = new HRManagementView();
-	private FinancialView financialView = new FinancialView();
-	private MedicalView medicalView = new MedicalView();
-	
 	private JPanel menuContainer = new JPanel(new GridLayout(1, 3));
 	private JPanel pageContainer = new JPanel(cardLayout);
 	
@@ -46,12 +42,13 @@ public class MainView extends JPanel
 		menuContainer.add(module2Button);
 		menuContainer.add(module3Button);
 		
-		pageContainer.add(HR_TAB, hrManagementView);
-		pageContainer.add(FINANCIAL_TAB, financialView);
-		pageContainer.add(MEDICAL_TAB, medicalView);
-		
 		add(menuContainer, BorderLayout.NORTH);
 		add(pageContainer, BorderLayout.CENTER);
+	}
+	
+	public void addTab(String key, JPanel panel)
+	{
+		pageContainer.add(key, panel);
 	}
 	
 	public void switchTab(String tabName)

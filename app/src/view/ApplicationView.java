@@ -17,15 +17,15 @@ public class ApplicationView {
 	
 	public ApplicationView()
 	{
-//		jframe.setSize(1080, 720);
-		mainPanel.setPreferredSize(new Dimension(1080, 720));
+		jframe.setSize(1080, 720);
+//		mainPanel.setSize(new Dimension(1080, 720));
 //		mainPanel.setBackground(Color.blue);
 		mainPanel.setLayout(cardLayout);
 		
 		jframe.setLocationRelativeTo(null);
 		jframe.setLayout(new BorderLayout());
 		jframe.add(mainPanel);
-		jframe.pack();
+//		jframe.pack();
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
