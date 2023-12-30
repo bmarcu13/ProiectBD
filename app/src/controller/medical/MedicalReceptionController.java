@@ -118,6 +118,11 @@ public class MedicalReceptionController {
 				appointmentView.displayError("Campul pentru CNP-ul pacientului este gol.");
 				return;
 			}
+			if(patientCNP.length() > 13)
+			{
+				appointmentView.displayError("CNP invalid");
+				return;
+			}
 			if(date.isBefore(LocalDate.now()) || (date.isEqual(LocalDate.now()) && time.isBefore(LocalTime.now())))
 			{
 				appointmentView.displayError("Se pot efectua programari doar pentru date ulterioare");

@@ -218,20 +218,22 @@ public class CreateAppointmentView extends JPanel{
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
 		constraints.anchor = GridBagConstraints.WEST;
+		constraints.gridwidth = 2;
 		errorLabel.setVisible(false);
 		errorLabel.setForeground(Color.red);
-		fieldContainer.add(errorLabel);
+//		errorLabel.setSize(new Dimension(300, 20));
+		fieldContainer.add(errorLabel, constraints);
 		
 //		Patient name field
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
-		constraints.anchor = GridBagConstraints.WEST;
+//		constraints.anchor = GridBagConstraints.WEST;
 		constraints.gridwidth = 1;
 		fieldContainer.add(patientSecondNameLabel, constraints);
 		
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
-		constraints.anchor = GridBagConstraints.CENTER;
+//		constraints.anchor = GridBagConstraints.CENTER;
 		constraints.gridwidth = 2;
 		patientSecondNameField.setPreferredSize(new Dimension(300, 30));
 		fieldContainer.add(patientSecondNameField, constraints);
@@ -239,13 +241,13 @@ public class CreateAppointmentView extends JPanel{
 		
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
-		constraints.anchor = GridBagConstraints.WEST;
+//		constraints.anchor = GridBagConstraints.WEST;
 		constraints.gridwidth = 1;
 		fieldContainer.add(patientFirstNameLabel, constraints);
 		
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
-		constraints.anchor = GridBagConstraints.CENTER;
+//		constraints.anchor = GridBagConstraints.CENTER;
 		constraints.gridwidth = 2;
 		patientFirstNameField.setPreferredSize(new Dimension(300, 30));
 		fieldContainer.add(patientFirstNameField, constraints);
@@ -253,13 +255,13 @@ public class CreateAppointmentView extends JPanel{
 //		Patient CNP field
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
-		constraints.anchor = GridBagConstraints.WEST;
+//		constraints.anchor = GridBagConstraints.WEST;
 		constraints.gridwidth = 1;
 		fieldContainer.add(patientCNPLabel, constraints);
 		
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
-		constraints.anchor = GridBagConstraints.CENTER;
+//		constraints.anchor = GridBagConstraints.CENTER;
 		patientCNPField.setPreferredSize(new Dimension(300, 30));
 		constraints.gridwidth = 2;
 		fieldContainer.add(patientCNPField, constraints);
@@ -267,7 +269,7 @@ public class CreateAppointmentView extends JPanel{
 //		Doctor dropdown
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
-		constraints.anchor = GridBagConstraints.WEST;
+//		constraints.anchor = GridBagConstraints.WEST;
 		constraints.gridwidth = 1;
 		fieldContainer.add(doctorLabel, constraints);
 		
@@ -282,7 +284,7 @@ public class CreateAppointmentView extends JPanel{
 		
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex;
-		constraints.anchor = GridBagConstraints.WEST;
+//		constraints.anchor = GridBagConstraints.WEST;
 		fieldContainer.add(dateLabel, constraints);
 		
 		constraints.gridx = 1;
@@ -292,7 +294,7 @@ public class CreateAppointmentView extends JPanel{
 		constraints.insets = new Insets(0, 0, 10, 10);
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex;
-		constraints.anchor = GridBagConstraints.CENTER;
+//		constraints.anchor = GridBagConstraints.CENTER;
 		dateField.setPreferredSize(new Dimension(145, 30));
 		fieldContainer.add(dateField, constraints);
 		
@@ -305,7 +307,7 @@ public class CreateAppointmentView extends JPanel{
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
 		constraints.gridwidth = 2;
-		constraints.anchor = GridBagConstraints.WEST;
+//		constraints.anchor = GridBagConstraints.WEST;
 		fieldContainer.add(servicesContainer, constraints);
 	}
 }
