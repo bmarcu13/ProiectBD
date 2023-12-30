@@ -2,6 +2,9 @@ package model;
 
 import java.net.PasswordAuthentication;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Vector;
 
 public class DatabaseService {
 	private static DatabaseService databaseService = null;
@@ -58,5 +61,60 @@ public class DatabaseService {
 		}
 		
 		return new Credentials(id, password);
+	}
+	
+	public Vector<Doctor> getDoctorList() throws SQLException
+	{
+		String statement = "CALL get_all_doctors()";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		ResultSet resultSet = cs.executeQuery();
+		
+		Vector<Doctor> doctors = new Vector<Doctor>();
+		
+		while(resultSet.next())
+		{
+			doctors.add(new Doctor(resultSet.getNString(1), resultSet.getNString(2), resultSet.getNString(3)));
+		}
+		
+		return doctors;
+	}
+	
+	public Vector<MedicalService> getMedicalServicesForMedic(String cnp) throws SQLException
+	{
+		Vector<MedicalService> services = new Vector<MedicalService>();
+		
+		String statement = "CALL get_specializations_for_doctor(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setString(1, cnp);
+		
+		ResultSet resultSet = cs.executeQuery();
+		
+		while(resultSet.next())
+		{
+			services.add(new MedicalService(resultSet.getNString(1), resultSet.getTime(2).toLocalTime(), resultSet.getInt(3)));
+		}
+		
+		return services;
+	}
+
+	public boolean createAppointment(String patientCNP, String patientFirstName, String patientSecondName, String doctorCNP, LocalDate date, LocalTime time, LocalTime duration) throws SQLException
+	{
+		String statement = "CALL create_appointment(?, ?, ?, ?, ?, ?, ?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setString(1, patientCNP);
+		cs.setString(2, patientFirstName);
+		cs.setString(3, patientSecondName);
+		cs.setString(4, doctorCNP);
+		cs.setDate(5, Date.valueOf(date));
+		cs.setTime(6, Time.valueOf(time));
+		cs.setTime(7, Time.valueOf(duration));
+		cs.registerOutParameter(8, java.sql.Types.TINYINT);
+		
+		cs.execute();
+		
+		return cs.getInt(8) == 1 ? true : false;
 	}
 }
