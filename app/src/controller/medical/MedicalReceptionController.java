@@ -95,7 +95,7 @@ public class MedicalReceptionController {
 			
 			try
 			{
-				time = appointmentView.getTime()
+				time = appointmentView.getTime();
 			}
 			catch(Exception ex)
 			{
@@ -118,6 +118,11 @@ public class MedicalReceptionController {
 				appointmentView.displayError("Campul pentru CNP-ul pacientului este gol.");
 				return;
 			}
+			if(date.isBefore(LocalDate.now()) || (date.isEqual(LocalDate.now()) && time.isBefore(LocalTime.now())))
+			{
+				appointmentView.displayError("Se pot efectua programari doar pentru date ulterioare");
+				return;
+			}
 			if(services == null)
 			{
 				appointmentView.displayError("Selectati minim un serviciu medical");
@@ -125,6 +130,7 @@ public class MedicalReceptionController {
 			}
 			
 			LocalTime duration = LocalTime.parse("00:00:00");
+			
 			for(MedicalService ms : services)
 			{
 				duration = duration
@@ -132,6 +138,7 @@ public class MedicalReceptionController {
 					.plusMinutes(ms.getDuration().getMinute())
 					.plusSeconds(ms.getDuration().getSecond());
 			}
+			
 			LocalTime finalTime = time.plusHours(duration.getHour()).plusMinutes(duration.getMinute()).plusSeconds(duration.getSecond());
 			
 			if(time.getHour() < finalTime.getHour())

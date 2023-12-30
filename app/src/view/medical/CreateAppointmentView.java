@@ -217,7 +217,9 @@ public class CreateAppointmentView extends JPanel{
 //		Error message
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
+		constraints.anchor = GridBagConstraints.WEST;
 		errorLabel.setVisible(false);
+		errorLabel.setForeground(Color.red);
 		fieldContainer.add(errorLabel);
 		
 //		Patient name field
