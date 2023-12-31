@@ -36,6 +36,14 @@ public class MedicalReceptionController {
 		
 		receptionView.switchTab(receptionView, MedicalReceptionView.HOME_VIEW);
 		
+		handleHomeView();
+		
+		handleAppointmetView();
+		
+	}
+	
+	private void handleHomeView()
+	{
 		homeView.addCreateAppointmentButtonListener(e -> {
 			receptionView.switchTab(receptionView, MedicalReceptionView.APPOINTMENT_VIEW);
 			
@@ -53,7 +61,10 @@ public class MedicalReceptionController {
 				appointmentView.setDoctorComboBoxItems(doctors);
 			}
 		});
-		
+	}
+	
+	private void handleAppointmetView()
+	{
 		appointmentView.setComboBoxListener((e) ->
 		{
 			int selectedIndex = appointmentView.getSelectedDoctorIndex();
@@ -176,7 +187,6 @@ public class MedicalReceptionController {
 			appointmentView.hideMessage();
 			appointmentView.displaySuccessMessage();
 			appointmentView.clearFields();
-			
 		});
 	}
 }
