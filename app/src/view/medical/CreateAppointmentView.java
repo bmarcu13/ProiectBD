@@ -64,7 +64,7 @@ public class CreateAppointmentView extends JPanel{
 	private JLabel dateLabel = new JLabel("Data (zi/luna/an)");
 	private JLabel timeLabel = new JLabel("Ora (hh:mm)");
 	private JLabel patientCNPLabel = new JLabel("CNP pacient");
-	private JLabel errorLabel = new JLabel();
+	private JLabel messageLabel = new JLabel();
 	
 	private List<Component> fieldList = new ArrayList<Component>();
 	private List<JCheckBox> availableServicesCheckBoxes;
@@ -198,13 +198,21 @@ public class CreateAppointmentView extends JPanel{
 
 	public void displayError(String message)
 	{
-		errorLabel.setText(message);
-		errorLabel.setVisible(true);
+		messageLabel.setForeground(Color.red);
+		messageLabel.setText(message);
+		messageLabel.setVisible(true);
 	}
 	
-	public void hideError()
+	public void displaySuccessMessage()
 	{
-		errorLabel.setVisible(false);
+		messageLabel.setForeground(Color.green);
+		messageLabel.setText("Programare efectuata cu succes.");
+		messageLabel.setVisible(true);
+	}
+	
+	public void hideMessage()
+	{
+		messageLabel.setVisible(false);
 	}
 	
 	private void renderFields()
@@ -214,15 +222,14 @@ public class CreateAppointmentView extends JPanel{
 		
 		int rowIndex = 0;
 		
-//		Error message
+//		Message
 		constraints.gridx = 0;
 		constraints.gridy = rowIndex++;
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.gridwidth = 2;
-		errorLabel.setVisible(false);
-		errorLabel.setForeground(Color.red);
+		messageLabel.setVisible(false);
 //		errorLabel.setSize(new Dimension(300, 20));
-		fieldContainer.add(errorLabel, constraints);
+		fieldContainer.add(messageLabel, constraints);
 		
 //		Patient name field
 		constraints.gridx = 0;

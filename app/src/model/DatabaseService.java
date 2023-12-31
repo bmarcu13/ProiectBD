@@ -93,13 +93,13 @@ public class DatabaseService {
 		
 		while(resultSet.next())
 		{
-			services.add(new MedicalService(resultSet.getNString(1), resultSet.getTime(2).toLocalTime(), resultSet.getInt(3)));
+			services.add(new MedicalService(resultSet.getInt(1), resultSet.getNString(2), resultSet.getTime(3).toLocalTime(), resultSet.getInt(4)));
 		}
 		
 		return services;
 	}
 
-	public boolean createAppointment(String patientCNP, String patientFirstName, String patientSecondName, String doctorCNP, LocalDate date, LocalTime time, LocalTime duration) throws SQLException
+	public int createAppointment(String patientCNP, String patientFirstName, String patientSecondName, String doctorCNP, LocalDate date, LocalTime time, LocalTime duration) throws SQLException
 	{
 		String statement = "CALL create_appointment(?, ?, ?, ?, ?, ?, ?, ?)";
 		CallableStatement cs = connection.prepareCall(statement);
@@ -111,10 +111,21 @@ public class DatabaseService {
 		cs.setDate(5, Date.valueOf(date));
 		cs.setTime(6, Time.valueOf(time));
 		cs.setTime(7, Time.valueOf(duration));
-		cs.registerOutParameter(8, java.sql.Types.TINYINT);
+		cs.registerOutParameter(8, java.sql.Types.INTEGER);
 		
 		cs.execute();
 		
-		return cs.getInt(8) == 1 ? true : false;
+		return cs.getInt(8);
+	}
+	
+	public void createServiceAppointment(int appointmentId, int medicalServiceId) throws SQLException
+	{
+		String statement = "CALL create_service_appointment(?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setInt(1, appointmentId);
+		cs.setInt(2, medicalServiceId);
+		
+		cs.execute();
 	}
 }

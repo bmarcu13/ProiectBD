@@ -6,6 +6,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `create_appointment`(
     in p_data DATE,
     in p_ora TIME,
     in p_durata TIME,
+    out p_id INT,
     out p_success TINYINT 
     )
 BEGIN
@@ -55,5 +56,7 @@ BEGIN
             p_ora, 
             p_durata
         );
+        
+		SET p_id = LAST_INSERT_ID();
     END IF;
 END

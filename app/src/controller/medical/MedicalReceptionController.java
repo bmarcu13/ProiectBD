@@ -1,5 +1,6 @@
 package controller.medical;
 
+import java.awt.DisplayMode;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -89,7 +90,7 @@ public class MedicalReceptionController {
 			}
 			catch(Exception ex)
 			{
-				appointmentView.displayError("Formatul date e invalid.");
+				appointmentView.displayError("Formatul datei e invalid.");
 				return;
 			}
 			
@@ -146,23 +147,36 @@ public class MedicalReceptionController {
 			
 			LocalTime finalTime = time.plusHours(duration.getHour()).plusMinutes(duration.getMinute()).plusSeconds(duration.getSecond());
 			
-			if(time.getHour() < finalTime.getHour())
+			if(finalTime.getHour() < time.getHour())
 			{
 				appointmentView.displayError("Durata programarii este prea mare");
 				return;
 			}
 			
+			int appointmentId = -1;
+			
 			try
 			{
-				databaseService.createAppointment(patientCNP, patientFirstName, patientSecondName, doctor.getCNP(), date, finalTime, duration);
+				appointmentId = databaseService.createAppointment(patientCNP, patientFirstName, patientSecondName, doctor.getCNP(), date, time, duration);
+				if (appointmentId < 1)
+				{
+					appointmentView.displayError("Programarea nu a putut fi efectuata.");
+					return;
+				}
+				for(MedicalService ms : services)
+				{
+					databaseService.createServiceAppointment(appointmentId, ms.getId());
+				}
 			}
 			catch (SQLException ex)
 			{
 				System.out.println(ex);
 			}
 			
+			appointmentView.hideMessage();
+			appointmentView.displaySuccessMessage();
+			appointmentView.clearFields();
+			
 		});
 	}
-	
-	
 }
