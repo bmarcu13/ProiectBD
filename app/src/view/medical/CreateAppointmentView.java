@@ -172,7 +172,7 @@ public class CreateAppointmentView extends JPanel{
 	
 	public LocalDate getDate()
 	{
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy"); 
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
 		return LocalDate.parse(dateField.getText(), formatter);
 	}
 	

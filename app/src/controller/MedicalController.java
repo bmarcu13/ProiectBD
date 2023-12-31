@@ -25,7 +25,7 @@ public class MedicalController {
 		
 		authenticationService.addCallback(() -> 
 		{
-			loadView();;
+			loadView();
 		});
 	}
 	

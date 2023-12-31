@@ -56,7 +56,7 @@ public class Application {
 		this.loginController = new LoginController(loginView, authenticationService, applicationView);
 		this.mainController = new MainController(mainView, authenticationService, applicationView, mainPanelChildren);
 		this.medicalController = new MedicalController(medicalView, authenticationService, mainView, permissionViewsMedical);
-		this.medicalReceptionHomeController = new MedicalReceptionController(medicalReceptionView, medicalReceptionHomeView, createAppointmentView);
+		this.medicalReceptionHomeController = new MedicalReceptionController(medicalReceptionView, medicalReceptionHomeView, createAppointmentView, authenticationService);
 	}
 	
 	public void run()

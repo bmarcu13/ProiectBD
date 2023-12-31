@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Vector;
 
+import model.AuthenticationService;
 import model.DatabaseService;
 import model.Doctor;
 import model.MedicalService;
@@ -20,16 +21,19 @@ public class MedicalReceptionController {
 	private CreateAppointmentView appointmentView;
 	
 	private DatabaseService databaseService = DatabaseService.getInstance();
+	private AuthenticationService authenticationService;
 	
 	private Vector<Doctor> doctors;
 	
 	public MedicalReceptionController(MedicalReceptionView _medicalReceptionView, 
 			MedicalReceptionHomeView _medicalReceptionHomeView, 
-			CreateAppointmentView _createAppointmentView)
+			CreateAppointmentView _createAppointmentView,
+			AuthenticationService _authenticationService)
 	{
 		this.receptionView = _medicalReceptionView;
 		this.homeView = _medicalReceptionHomeView;
 		this.appointmentView = _createAppointmentView;
+		this.authenticationService = _authenticationService;
 		
 		receptionView.addTab(MedicalReceptionView.HOME_VIEW, homeView);
 		receptionView.addTab(MedicalReceptionView.APPOINTMENT_VIEW, appointmentView);
@@ -44,6 +48,15 @@ public class MedicalReceptionController {
 	
 	private void handleHomeView()
 	{
+		authenticationService.addCallback(() -> 
+		{				
+			try {
+				homeView.renderUnregisteredAppointments(databaseService.getUnregisteredAppointments());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+
 		homeView.addCreateAppointmentButtonListener(e -> {
 			receptionView.switchTab(receptionView, MedicalReceptionView.APPOINTMENT_VIEW);
 			
@@ -102,6 +115,7 @@ public class MedicalReceptionController {
 			catch(Exception ex)
 			{
 				appointmentView.displayError("Formatul datei e invalid.");
+				System.out.println(ex);
 				return;
 			}
 			

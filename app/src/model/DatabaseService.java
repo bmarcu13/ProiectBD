@@ -128,4 +128,20 @@ public class DatabaseService {
 		
 		cs.execute();
 	}
+	
+	public Vector<Appointment> getUnregisteredAppointments() throws SQLException
+	{
+		String statement = "CALL get_unregistered_appointments()";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		ResultSet results = cs.executeQuery();
+		Vector<Appointment> appointments = new Vector<Appointment>();
+		
+		while(results.next())
+		{
+			appointments.add(new Appointment(results.getInt(1), results.getNString(2), results.getNString(3), results.getTime(4).toLocalTime()));
+		}
+		
+		return appointments;
+	}
 }
