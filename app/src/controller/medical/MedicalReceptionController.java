@@ -201,6 +201,15 @@ public class MedicalReceptionController {
 			appointmentView.hideMessage();
 			appointmentView.displaySuccessMessage();
 			appointmentView.clearFields();
+			
+			try
+			{
+				homeView.renderUnregisteredAppointments(databaseService.getUnregisteredAppointments());
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex);
+			}
 		});
 	}
 }
