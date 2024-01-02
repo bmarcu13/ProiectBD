@@ -144,4 +144,14 @@ public class DatabaseService {
 		
 		return appointments;
 	}
+	
+	public void registerPatientForAppointment(int appointmentId) throws SQLException
+	{
+		String statement = "CALL register_patient_for_appointment(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setInt(1, appointmentId);
+		
+		cs.execute();
+	}
 }

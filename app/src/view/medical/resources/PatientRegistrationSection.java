@@ -17,11 +17,14 @@ public class PatientRegistrationSection extends JPanel{
 	
 	private JLabel nameameLabel = new JLabel();
 	private JLabel timeLabel = new JLabel();
+	private int id;
 	
 	private JButton registerButton = new JButton("Inregistrare");
 	
-	public PatientRegistrationSection(String firstName, String secondName, LocalTime time)
+	public PatientRegistrationSection(int _index, String firstName, String secondName, LocalTime time)
 	{
+		registerButton.setName(String.valueOf(_index));
+		
 		setBackground(Color.white);
 		
 		nameameLabel.setText(firstName + " " + secondName);

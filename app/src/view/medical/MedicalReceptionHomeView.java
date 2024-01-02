@@ -31,6 +31,8 @@ public class MedicalReceptionHomeView extends JPanel{
 	
 	private JButton createAppointmentButton = new JButton("Creeaza programare");
 	
+	private ActionListener registerButtonActionListener;
+	
 	public MedicalReceptionHomeView()
 	{
 		setLayout(new BorderLayout());
@@ -48,20 +50,32 @@ public class MedicalReceptionHomeView extends JPanel{
 		add(basePanel, BorderLayout.CENTER);
 	}
 	
+	//Make sure setRegisterButtonActionListener was called with a valid argument before calling this function
 	public void renderUnregisteredAppointments(Vector<Appointment> appointments)
 	{
+		leftPanel.removeAll();
 		leftPanel.add(Box.createVerticalStrut(5));
+		int index = 0;
 		for(Appointment a : appointments)
 		{	
-			PatientRegistrationSection s  = new PatientRegistrationSection(a.getPatientFirstName(), a.getPatientSecondName(), a.getTime());
+			PatientRegistrationSection s  = new PatientRegistrationSection(a.getId(), a.getPatientFirstName(), a.getPatientSecondName(), a.getTime());
 			s.setMaximumSize(new Dimension(310, 50));
+			if(registerButtonActionListener != null)			
+			s.setRegisterButtonActionListener(registerButtonActionListener);
 			leftPanel.add(s);
 			leftPanel.add(Box.createVerticalStrut(5));
 		}
+		leftPanel.revalidate();
+		leftPanel.repaint();
 	}
 	
 	public void addCreateAppointmentButtonListener(ActionListener actionListener)
 	{
 		createAppointmentButton.addActionListener(actionListener);
+	}
+	
+	public void setRegisterButtonActionListener(ActionListener al)
+	{
+		registerButtonActionListener = al;
 	}
 }
