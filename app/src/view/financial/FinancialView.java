@@ -1,6 +1,4 @@
-package view;
-
-import java.awt.*;
+package view.financial;
 
 import javax.swing.JPanel;
 import java.awt.CardLayout;

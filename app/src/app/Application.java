@@ -1,19 +1,20 @@
 package app;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
+import controller.financial.EveryoneController;
+import controller.financial.FinancialController;
 import controller.LoginController;
 import controller.MainController;
 import controller.MedicalController;
 import controller.medical.MedicalReceptionController;
 import model.AuthenticationService;
 import view.ApplicationView;
-import view.FinancialView;
+import view.financial.EveryoneView;
+import view.financial.FinancialView;
 import view.HRManagementView;
 import view.LoginView;
 import view.MainView;
@@ -30,8 +31,9 @@ public class Application {
 	private LoginController loginController;
 	private MainController mainController;
 	private MedicalController medicalController;
+	private FinancialController financialController;
 	private MedicalReceptionController medicalReceptionHomeController;
-	
+
 	private LoginView loginView = new LoginView();
 	private MainView mainView = new MainView();
 	private HRManagementView hrManagementView = new HRManagementView();
@@ -41,6 +43,7 @@ public class Application {
 	private MedicalReceptionView medicalReceptionView = new MedicalReceptionView();
 	private MedicalDoctorView medicalDoctorView = new MedicalDoctorView();
 	private CreateAppointmentView createAppointmentView = new CreateAppointmentView();
+	private EveryoneView everyoneView = new EveryoneView();
 	
 	public Application ()
 	{		
@@ -57,6 +60,7 @@ public class Application {
 		this.mainController = new MainController(mainView, authenticationService, applicationView, mainPanelChildren);
 		this.medicalController = new MedicalController(medicalView, authenticationService, mainView, permissionViewsMedical);
 		this.medicalReceptionHomeController = new MedicalReceptionController(medicalReceptionView, medicalReceptionHomeView, createAppointmentView, authenticationService);
+		this.financialController = new FinancialController(this.financialView, this.authenticationService);
 	}
 	
 	public void run()

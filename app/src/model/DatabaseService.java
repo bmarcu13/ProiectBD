@@ -144,4 +144,18 @@ public class DatabaseService {
 		
 		return appointments;
 	}
+	public int getEmployeeEarnings(String _cnp, Date _date) throws SQLException {
+		String statement = "SELECT get_employee_earnings(?, ?) AS earnings";
+		PreparedStatement preparedStatement= connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _cnp);
+		preparedStatement.setDate(2, _date);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("earnings");
+		}
+		return 0;
+	}
 }

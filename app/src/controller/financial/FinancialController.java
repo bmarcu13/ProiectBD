@@ -1,7 +1,8 @@
-package controller;
+package controller.financial;
 
 import model.AuthenticationService;
 import model.Callback;
+import model.financial.EveryoneModel;
 import view.financial.EveryoneView;
 import view.financial.ExpertView;
 import view.financial.FinancialView;
@@ -10,6 +11,12 @@ import view.financial.MedicView;
 public class FinancialController implements Callback {
     private FinancialView financialView;
     private AuthenticationService authenticationService;
+
+    private EveryoneView everyoneView;
+    private ExpertView expertView;
+    private MedicView medicView;
+    private EveryoneController everyoneController;
+
     public FinancialController(FinancialView _financialView, AuthenticationService _authenticationService) {
         this.financialView = _financialView;
         this.authenticationService = _authenticationService;
@@ -19,13 +26,17 @@ public class FinancialController implements Callback {
     public void loadInnerPage() {
         switch (this.authenticationService.getAccountType()) {
             case AuthenticationService.ACC_FINANCIAL:
-                this.financialView.addExpertView(new ExpertView());
+                this.expertView = new ExpertView();
+                this.financialView.addExpertView(this.expertView);
                 break;
             case AuthenticationService.ACC_MEDICAL_DOCTOR:
-                this.financialView.addMedicView(new MedicView());
+                this.medicView = new MedicView();
+                this.financialView.addMedicView(this.medicView);
                 break;
             default:
-                this.financialView.addEveryoneView(new EveryoneView());
+                this.everyoneView = new EveryoneView();
+                this.everyoneController = new EveryoneController(this.everyoneView, new EveryoneModel());
+                this.financialView.addEveryoneView(this.everyoneView);
                 break;
         }
     }

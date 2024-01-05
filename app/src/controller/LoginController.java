@@ -48,6 +48,7 @@ public class LoginController
 		}
 		catch(SQLException ex)
 		{
+			System.out.println(ex.toString());
 			loginView.setErrorMessage("Internal error.");
 			loginView.showError();
 		}

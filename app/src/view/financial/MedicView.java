@@ -1,4 +1,4 @@
-package view;
+package view.financial;
 
 import javax.swing.*;
 import java.awt.*;
