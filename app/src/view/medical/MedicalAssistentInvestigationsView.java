@@ -77,8 +77,6 @@ public class MedicalAssistentInvestigationsView extends JPanel{
 			Investigation investigation = is.getSelectedItem();
 			investigation.setValue(is.getValue());
 			investigations.add(investigation);
-			
-			System.out.println(investigation.getId() + " " + investigation.getName());
 		}
 		
 		return investigations;
