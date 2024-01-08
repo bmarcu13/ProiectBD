@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import model.Appointment;
-import view.medical.resources.PatientRegistrationSection;
+import view.medical.resources.AppointmentSection;
 
 public class MedicalReceptionHomeView extends JPanel{
 	private JPanel createAppointmentButtonContainer = new JPanel();
@@ -58,10 +58,10 @@ public class MedicalReceptionHomeView extends JPanel{
 		int index = 0;
 		for(Appointment a : appointments)
 		{	
-			PatientRegistrationSection s  = new PatientRegistrationSection(a.getId(), a.getPatientFirstName(), a.getPatientSecondName(), a.getTime());
+			AppointmentSection s  = new AppointmentSection(a.getId(), a.getPatientFirstName(), a.getPatientSecondName(), a.getTime(), "Inregistrare");
 			s.setMaximumSize(new Dimension(310, 50));
 			if(registerButtonActionListener != null)			
-			s.setRegisterButtonActionListener(registerButtonActionListener);
+				s.setRegisterButtonActionListener(registerButtonActionListener);
 			leftPanel.add(s);
 			leftPanel.add(Box.createVerticalStrut(5));
 		}

@@ -145,12 +145,107 @@ public class DatabaseService {
 		return appointments;
 	}
 	
+	public Vector<Appointment> getRegisteredAppointments() throws SQLException
+	{
+		String statement = "CALL get_registered_appointments()";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		ResultSet results = cs.executeQuery();
+		Vector<Appointment> appointments = new Vector<Appointment>();
+		
+		while(results.next())
+		{
+			appointments.add(new Appointment(results.getInt(1), results.getNString(2), results.getNString(3), results.getTime(4).toLocalTime()));
+		}
+		
+		return appointments;
+	}
+	
 	public void registerPatientForAppointment(int appointmentId) throws SQLException
 	{
 		String statement = "CALL register_patient_for_appointment(?)";
 		CallableStatement cs = connection.prepareCall(statement);
 		
 		cs.setInt(1, appointmentId);
+		
+		cs.execute();
+	}
+	
+	public Vector<Investigation> getAvailableInvestigations() throws SQLException
+	{
+		String statement = "CALL get_available_investigations()";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		ResultSet results = cs.executeQuery();
+		
+		Vector<Investigation> investigationList = new Vector<Investigation>();
+		
+		while (results.next())
+		{
+			int lowerBound = results.getInt(3);
+			int upperBound = results.getInt(4);
+			if(results.wasNull())
+			{				
+				investigationList.add(new Investigation(results.getInt(1), results.getNString(2)));
+			}
+			else
+			{
+				investigationList.add(new Investigation(results.getInt(1), results.getNString(2), lowerBound, upperBound));
+			}
+		}
+		
+		return investigationList;
+	}
+	
+	public Vector<Investigation> getExistingInvestigations(int appointmentId) throws SQLException
+	{
+		String statement = "CALL get_existing_investigations(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setInt(1, appointmentId);
+		
+		ResultSet results = cs.executeQuery();
+		
+		Vector<Investigation> existingInvestigations = new Vector<Investigation>();
+		
+		while(results.next())
+		{
+			Investigation investigation = new Investigation(results.getInt(1), results.getNString(2));
+			int val = results.getInt(3);
+			if(results.wasNull())
+			{				
+				investigation.setValue(results.getByte(4));
+			}
+			else
+			{
+				investigation.setValue(val);
+			}
+			
+			existingInvestigations.add(investigation);
+		}
+		
+		return existingInvestigations;
+	}
+	
+	public void insertInvestigations(int appointmentId, Investigation investigation) throws SQLException
+	{
+		String statement = "CALL insert_investigation_result(?, ?, ?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+//		System.out.println(investigation.getId() + " " + appointmentId + " " +investigation.getValue());
+				
+		cs.setInt(1, investigation.getId());
+		cs.setInt(2, appointmentId);
+		if(investigation.getValue() == 1 || investigation.getValue() == 0)
+		{			
+			cs.setNull(3, java.sql.Types.INTEGER);
+			cs.setByte(4, (byte) investigation.getValue());
+		}
+		else
+		{
+			cs.setInt(3, investigation.getValue());
+			cs.setNull(4, java.sql.Types.TINYINT);
+		}
 		
 		cs.execute();
 	}

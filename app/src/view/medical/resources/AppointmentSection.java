@@ -13,17 +13,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class PatientRegistrationSection extends JPanel{
+public class AppointmentSection extends JPanel{
 	
 	private JLabel nameameLabel = new JLabel();
 	private JLabel timeLabel = new JLabel();
 	private int id;
 	
-	private JButton registerButton = new JButton("Inregistrare");
+	private JButton registerButton = new JButton();
 	
-	public PatientRegistrationSection(int _index, String firstName, String secondName, LocalTime time)
+	public AppointmentSection(int _index, String firstName, String secondName, LocalTime time, String buttonText)
 	{
 		registerButton.setName(String.valueOf(_index));
+		registerButton.setText(buttonText);
 		
 		setBackground(Color.white);
 		
