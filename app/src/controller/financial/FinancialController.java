@@ -17,6 +17,8 @@ public class FinancialController implements Callback {
     private MedicView medicView;
     private EveryoneController everyoneController;
 
+    private MedicController medicController;
+
     public FinancialController(FinancialView _financialView, AuthenticationService _authenticationService) {
         this.financialView = _financialView;
         this.authenticationService = _authenticationService;
@@ -30,12 +32,15 @@ public class FinancialController implements Callback {
                 this.financialView.addExpertView(this.expertView);
                 break;
             case AuthenticationService.ACC_MEDICAL_DOCTOR:
-                this.medicView = new MedicView();
+                this.everyoneView = new EveryoneView();
+                this.everyoneController = new EveryoneController(this.everyoneView, new EveryoneModel(this.authenticationService));
+                this.medicView = new MedicView(this.everyoneView);
+                this.medicController = new MedicController(this.medicView, this.everyoneController, this.authenticationService);
                 this.financialView.addMedicView(this.medicView);
                 break;
             default:
                 this.everyoneView = new EveryoneView();
-                this.everyoneController = new EveryoneController(this.everyoneView, new EveryoneModel());
+                this.everyoneController = new EveryoneController(this.everyoneView, new EveryoneModel(this.authenticationService));
                 this.financialView.addEveryoneView(this.everyoneView);
                 break;
         }

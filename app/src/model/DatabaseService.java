@@ -4,6 +4,7 @@ import java.net.PasswordAuthentication;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class DatabaseService {
@@ -40,6 +41,7 @@ public class DatabaseService {
 	
 	public Credentials getAccountDetails(Credentials credentials) throws SQLException
 	{
+		System.out.println("Yo Yo Yo " + credentials.getUsername());
 		String statement = "CALL get_account_credentials(?, ?, ?, ?, ?)";
 		CallableStatement cs = connection.prepareCall(statement);
 		
@@ -155,6 +157,83 @@ public class DatabaseService {
 
 		if (resultSet.next()) {
 			return resultSet.getInt("earnings");
+		}
+		return 0;
+	}
+
+	public String getUserCnp(String userEmail) throws SQLException {
+		String statement = "SELECT get_user_cnp(?) AS user_cnp";
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, userEmail);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("user_cnp");
+		}
+		return "";
+	}
+
+	public ArrayList<Integer> getMedicWorkingUnits(String medicCNP) throws SQLException {
+		String statement = "CALL get_medic_working_units(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, medicCNP);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		ArrayList<Integer> medicalUnitIDs = new ArrayList<>();
+		while (resultSet.next()) {
+			medicalUnitIDs.add(resultSet.getInt(1));
+		}
+		return medicalUnitIDs;
+	}
+
+	public String getMedicalUnitName(int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medical_unit_name(?) AS medical_unit_name";
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setInt(1, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("medical_unit_name");
+		}
+		return "";
+	}
+
+	public int getMedicPaidServicesProfit(String medicCNP, Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medic_paid_services_profit(?, ?, ?) AS profit";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, medicCNP);
+		preparedStatement.setDate(2, date);
+		preparedStatement.setInt(3, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("profit");
+		}
+		return 0;
+	}
+
+	public int getMedicProfitOnOneUnit(String medicCNP, Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medic_profit_on_one_unit(?, ?, ?) AS profit";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, medicCNP);
+		preparedStatement.setDate(2, date);
+		preparedStatement.setInt(3, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("profit");
 		}
 		return 0;
 	}

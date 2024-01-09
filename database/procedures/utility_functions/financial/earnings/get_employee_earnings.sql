@@ -7,6 +7,10 @@ DECLARE salary INT;
 DECLARE workedHours INT;
 DECLARE requiredHours INT;
 
+IF YEAR(_month) > YEAR(CURRENT_DATE) OR (YEAR(_month) = YEAR(CURRENT_DATE) AND MONTH(_month) > MONTH(CURRENT_DATE)) THEN
+	RETURN 0;
+END IF;
+
 SET workedHours = time_to_sec(get_employee_worked_hours(_employee_cnp, _month));
 SET requiredHours = get_required_nr_of_hours(_employee_cnp) * 60 * 60;
 

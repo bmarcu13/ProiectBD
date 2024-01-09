@@ -1,5 +1,6 @@
 package model.financial;
 
+import model.AuthenticationService;
 import view.financial.EveryoneView;
 
 import javax.swing.*;
@@ -9,22 +10,31 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Calendar;
-
 public class EveryoneModel {
-    private final DatabaseService databaseService;
-    private String selectedMonth = "Ianuarie";
-    private String cnp;
-    private int year;
-    public EveryoneModel() {
+    protected final DatabaseService databaseService;
+    protected String selectedMonth = "Ianuarie";
+    protected final String cnp;
+    protected int year;
+    public EveryoneModel(AuthenticationService authenticationService) {
         this.databaseService = DatabaseService.getInstance();
-    }
 
-    public String getSelectedMonth() {
-        return this.selectedMonth;
+        // initialize the cnp of the user
+        String temp_cnp;
+        try {
+            temp_cnp = this.databaseService.getUserCnp(authenticationService.getEmail());
+        } catch (SQLException e) {
+            temp_cnp = "";
+            e.printStackTrace();
+        }
+        this.cnp = temp_cnp;
     }
 
     public String getCnp() {
         return this.cnp;
+    }
+
+    public String getSelectedMonth() {
+        return this.selectedMonth;
     }
 
     public int getYear() {
@@ -35,15 +45,11 @@ public class EveryoneModel {
         this.selectedMonth = _month;
     }
 
-    public void setCnp(String _cnp) {
-        this.cnp = _cnp;
-    }
-
     public void setYear(int _year) {
         this.year = _year;
     }
 
-    private int convertMonth() {
+    protected int convertMonth() {
         switch (this.selectedMonth) {
             case "Ianuarie":
                 return 1;
@@ -83,7 +89,6 @@ public class EveryoneModel {
         long milliseconds = calendar.getTimeInMillis();
 
         Date date = new Date(milliseconds);
-        System.out.println(date);
         return this.databaseService.getEmployeeEarnings(this.cnp, date);
     }
 }
