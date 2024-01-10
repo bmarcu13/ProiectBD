@@ -21,7 +21,6 @@ public class MedicController {
         this.medicView = _medicView;
         this.everyoneController = _everyoneController;
 
-        this.medicProfitsController = new MedicProfitsController(this.medicView.getMedicProfitsView(), new MedicProfitsModel(this.authenticationService));
-
+        this.medicProfitsController = new MedicProfitsController(this.medicView.getMedicProfitsView(), new MedicProfitsModel(this.authenticationService), _medicView);
     }
 }

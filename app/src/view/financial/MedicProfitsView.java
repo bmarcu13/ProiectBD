@@ -8,6 +8,7 @@ public class MedicProfitsView extends EveryoneView {
     public MedicProfitsView() {
         super();
         this.submit.setText("View profits");
+        this.earnings.setText("");
     }
 
     public JComboBox getMonthHolder() {

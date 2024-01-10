@@ -18,7 +18,7 @@ public class EveryoneView extends JPanel {
 
     protected final JComboBox monthHolder;
 
-    private final JLabel earnings = new JLabel();
+    protected final JLabel earnings = new JLabel();
 
     protected final JButton submit = new JButton();
     public EveryoneView() {
