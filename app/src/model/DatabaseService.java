@@ -237,4 +237,21 @@ public class DatabaseService {
 		}
 		return 0;
 	}
+
+	public int getMedicalUnitProfit(Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medical_unit_profit(?, ?) AS profit";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setDate(1, date);
+		preparedStatement.setInt(2, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("profit");
+		}
+		return 0;
+	}
+
 }
