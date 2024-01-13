@@ -11,6 +11,7 @@ public class MedicView extends JPanel {
     private final JComboBox monthHolder;
     private final MedicProfitsView medicProfitsView;
     private final JPanel viewProfits = new JPanel();
+    private final BoxLayout viewProfitsLayout = new BoxLayout(this.viewProfits, BoxLayout.Y_AXIS);
 
     DefaultTableModel model;
     JTable table;
@@ -18,6 +19,8 @@ public class MedicView extends JPanel {
     public MedicView(EveryoneView _everyoneView) {
         this.everyoneView = _everyoneView;
         this.medicProfitsView = new MedicProfitsView();
+
+        this.viewProfits.setLayout(this.viewProfitsLayout);
 
         this.add(this.everyoneView);
 
@@ -31,23 +34,23 @@ public class MedicView extends JPanel {
     }
 
     public void initTable(Object[][] tableData) {
-        if (this.setTable) {
-            this.viewProfits.remove(this.tableScrollPane);
-        }
-        this.setTable = true;
         String[] columnNames = {"Unitate medicala", "ID unitate", "Venit generat", "Salariu", "Profit generat"};
+        if (!this.setTable) {
+            this.model = new DefaultTableModel(tableData, columnNames);
+            this.table = new JTable(this.model);
+            this.setTable = true;
+            this.tableScrollPane = new JScrollPane(table);
+            this.tableScrollPane.setPreferredSize(new Dimension(500, 300));
+            this.viewProfits.add(this.tableScrollPane);
+            this.viewProfits.revalidate();
+            this.viewProfits.repaint();
+        }
 
-        this.model = new DefaultTableModel(tableData, columnNames);
-        this.table = new JTable(this.model);
-
+        this.model.setDataVector(tableData, columnNames);
         System.out.println("Here " + Arrays.deepToString(tableData));
 
-        this.tableScrollPane = new JScrollPane(table);
-        this.tableScrollPane.setPreferredSize(new Dimension(500, 300));
-        this.tableScrollPane.setBackground(Color.blue);
-
-        this.viewProfits.add(this.tableScrollPane);
-
+        this.tableScrollPane.revalidate();
+        this.tableScrollPane.repaint();
     }
 
     public MedicProfitsView getMedicProfitsView() {
