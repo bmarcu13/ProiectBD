@@ -44,7 +44,6 @@ public class MedicalReceptionHomeView extends JPanel{
 		leftPanelScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		leftPanel.setLayout(leftPanelBoxLayout);
 		rightPanelScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		rightPanel.setBackground(Color.CYAN);
 		basePanel.add(leftPanelScrollPane);
 		basePanel.add(rightPanelScrollPane);
 		add(basePanel, BorderLayout.CENTER);
