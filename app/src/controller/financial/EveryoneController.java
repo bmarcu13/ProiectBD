@@ -57,19 +57,6 @@ public class EveryoneController {
             }
             this.everyoneView.showEarnings();
         });
-
-        this.everyoneView.getSubmit().addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                try {
-                    everyoneView.getEarnings().setText(Integer.toString(everyoneModel.getEmployeeEarnings()));
-                } catch (SQLException ex) {
-                    everyoneView.showErrorMessage(ex.getMessage());
-                    setTimeout(everyoneView::hideErrorMessage, 2000);
-                }
-                everyoneView.showEarnings();
-            }
-        });
     }
     public static void setTimeout(Runnable runnable, int delay){
         new Thread(() -> {

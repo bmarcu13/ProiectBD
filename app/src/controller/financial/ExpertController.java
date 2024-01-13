@@ -1,11 +1,14 @@
 package controller.financial;
 
 import model.financial.ExpertModel;
+import model.financial.MedicalUnitProfitData;
 import view.financial.ExpertView;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class ExpertController {
     ExpertView expertView;
@@ -50,24 +53,12 @@ public class ExpertController {
 
         this.expertView.getSubmitHolder().addActionListener(e -> {
             try {
-                System.out.println("Profits: " + this.expertModel.getMedicalUnitProfits(1));
+                Vector<MedicalUnitProfitData> medicalUnitsProfits = this.expertModel.getMedicalUnitsProfits();
+                this.expertView.initTable(medicalUnitsProfits);
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
                 this.expertView.showErrorMessage(ex.getMessage());
                 EveryoneController.setTimeout(this.expertView::hideErrorMessage, 2000);
-            }
-        });
-
-        this.expertView.getSubmitHolder().addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                try {
-                    System.out.println("Profits: " + expertModel.getMedicalUnitProfits(1));
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                    expertView.showErrorMessage(ex.getMessage());
-                    EveryoneController.setTimeout(expertView::hideErrorMessage, 2000);
-                }
             }
         });
     }

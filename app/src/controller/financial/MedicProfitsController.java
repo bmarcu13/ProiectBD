@@ -73,31 +73,6 @@ public class MedicProfitsController {
                 setTimeout(this.medicProfitsView::hideErrorMessage, 2000);
             }
         });
-
-        medicProfitsView.getSubmit().addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                try {
-                    workingUnitIDs.clear();
-                    medicalUnitNames.clear();
-                    medicGeneratedProfit.clear();
-                    medicTotalProfit.clear();
-                    workingUnitIDs = databaseService.getMedicWorkingUnits(medicProfitsModel.getCnp());
-                    for (int i = 0; i < workingUnitIDs.size(); i++) {
-                        medicalUnitNames.add(databaseService.getMedicalUnitName(workingUnitIDs.get(i)));
-                        medicGeneratedProfit.add(medicProfitsModel.getMedicPaidServicesProfit(workingUnitIDs.get(i)));
-                        medicSalary = medicProfitsModel.getMedicSalary();
-                        medicTotalProfit.add(medicProfitsModel.getMedicProfitOnOneUnit(workingUnitIDs.get(i)));
-                        _medicView.initTable(convertIntoTableData());
-                        System.out.println("{ " + medicalUnitNames.get(i) + " " + workingUnitIDs.get(i) + " " + medicGeneratedProfit.get(i) + " " + medicSalary + " " + medicTotalProfit.get(i) + " }\n");
-                    }
-                } catch (SQLException ex) {
-                    medicProfitsView.showErrorMessage(ex.getMessage());
-                    setTimeout(medicProfitsView::hideErrorMessage, 2000);
-                }
-            }
-        });
-
     }
 
     public Object[][] convertIntoTableData() {

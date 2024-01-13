@@ -1,6 +1,7 @@
 package view.financial;
 
 import controller.financial.EveryoneController;
+import model.financial.MedicalUnitProfitData;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,6 +10,7 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Vector;
 
 public class ExpertView extends JPanel {
     private EveryoneView everyoneView;
@@ -23,7 +25,6 @@ public class ExpertView extends JPanel {
     private final JButton submit = new JButton();
     private final JLabel errorMessage = new JLabel();
 
-    private final BoxLayout viewUnitProfitsLayout = new BoxLayout(this.viewUnitProfits, BoxLayout.Y_AXIS);
 
     DefaultTableModel model;
     JTable table;
@@ -74,12 +75,29 @@ public class ExpertView extends JPanel {
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         this.add(this.inputPanel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        this.add(this.viewUnitProfits, gbc);
     }
 
-    public void initTable(Object[][] tableData) {
+    public void initTable(Vector<MedicalUnitProfitData> tableData) {
         String[] columnNames = {"Unitate medicala", "ID unitate", "Venituri", "Cheltuieli", "Profit"};
+        Vector<Vector<Object>> customTableData = new Vector<>();
+        for (MedicalUnitProfitData medicalUnitProfitData: tableData) {
+            Vector<Object> row = new Vector<>();
+            row.add(medicalUnitProfitData.getId());
+            row.add(medicalUnitProfitData.getName());
+            row.add(medicalUnitProfitData.getIncome());
+            row.add(medicalUnitProfitData.getExpenses());
+            row.add(medicalUnitProfitData.getProfit());
+
+            customTableData.add(row);
+        }
         if (!this.setTable) {
-            this.model = new DefaultTableModel(tableData, columnNames);
+            this.model = new DefaultTableModel(customTableData, new Vector<>(Arrays.asList(columnNames)));
             this.table = new JTable(this.model);
             this.setTable = true;
             this.tableScrollPane = new JScrollPane(table);
@@ -89,8 +107,7 @@ public class ExpertView extends JPanel {
             this.viewUnitProfits.repaint();
         }
 
-        this.model.setDataVector(tableData, columnNames);
-        System.out.println("Here " + Arrays.deepToString(tableData));
+        this.model.setDataVector(customTableData, new Vector<>(Arrays.asList(columnNames)));
 
         this.tableScrollPane.revalidate();
         this.tableScrollPane.repaint();

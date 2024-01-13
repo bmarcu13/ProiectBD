@@ -5,6 +5,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class DatabaseService {
@@ -238,6 +239,38 @@ public class DatabaseService {
 		return 0;
 	}
 
+	public int getMedicalUnitIncome(Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medical_unit_income(?, ?) AS income";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setDate(1, date);
+		preparedStatement.setInt(2, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("income");
+		}
+		return 0;
+	}
+
+	public int getMedicalUnitExpenses(Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medical_unit_expenses(?, ?) AS expenses";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setDate(1, date);
+		preparedStatement.setInt(2, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("expenses");
+		}
+		return 0;
+	}
+
 	public int getMedicalUnitProfit(Date date, int medicalUnitID) throws SQLException {
 		String statement = "SELECT get_medical_unit_profit(?, ?) AS profit";
 
@@ -252,6 +285,19 @@ public class DatabaseService {
 			return resultSet.getInt("profit");
 		}
 		return 0;
+	}
+
+	public HashMap<Integer, String> getAllMedicalUnits() throws SQLException {
+		String statement = "CALL get_all_medical_units()";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		HashMap<Integer, String> medicalUnits = new HashMap<>();
+		while (resultSet.next()) {
+			medicalUnits.put(resultSet.getInt("id_unitate_medicala"), resultSet.getString("denumire_unitate_medicala"));
+		}
+		return medicalUnits;
 	}
 
 }
