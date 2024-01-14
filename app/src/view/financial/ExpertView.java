@@ -59,7 +59,6 @@ public class ExpertView extends JPanel {
         try {
             MaskFormatter formatter = new MaskFormatter("####");
             formatter.setValidCharacters("0123456789");
-            formatter.setPlaceholderCharacter('_');
 
             this.yearHolder.setFormatterFactory(new DefaultFormatterFactory(formatter));
             this.yearHolder.setFocusLostBehavior(JFormattedTextField.COMMIT_OR_REVERT);
@@ -235,6 +234,7 @@ public class ExpertView extends JPanel {
             this.viewMedicProfitsContainer.add(this.profitsTableScrollPane);
             this.viewMedicProfitsContainer.revalidate();
             this.viewMedicProfitsContainer.repaint();
+            return;
         }
 
         this.profitsModel.setDataVector(customTableData, new Vector<>(Arrays.asList(columnNames)));

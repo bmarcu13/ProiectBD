@@ -5,17 +5,17 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import controller.financial.EveryoneController;
 import controller.financial.FinancialController;
 import controller.LoginController;
 import controller.MainController;
 import controller.MedicalController;
+import controller.hr.HRManagementController;
 import controller.medical.MedicalReceptionController;
 import model.AuthenticationService;
 import view.ApplicationView;
 import view.financial.EveryoneView;
 import view.financial.FinancialView;
-import view.HRManagementView;
+import view.hr.HRManagementView;
 import view.LoginView;
 import view.MainView;
 import view.MedicalView;
@@ -33,6 +33,7 @@ public class Application {
 	private MedicalController medicalController;
 	private FinancialController financialController;
 	private MedicalReceptionController medicalReceptionHomeController;
+	private HRManagementController hrManagementController;
 
 	private LoginView loginView = new LoginView();
 	private MainView mainView = new MainView();
@@ -61,6 +62,7 @@ public class Application {
 		this.medicalController = new MedicalController(medicalView, authenticationService, mainView, permissionViewsMedical);
 		this.medicalReceptionHomeController = new MedicalReceptionController(medicalReceptionView, medicalReceptionHomeView, createAppointmentView, authenticationService);
 		this.financialController = new FinancialController(this.financialView, this.authenticationService);
+		this.hrManagementController = new HRManagementController(this.hrManagementView, this.authenticationService);
 	}
 	
 	public void run()

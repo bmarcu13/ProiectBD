@@ -1,5 +1,8 @@
 package model;
 
+import model.hr.GenericTimetable;
+import model.hr.SpecificTimetable;
+
 import java.net.PasswordAuthentication;
 import java.sql.*;
 import java.time.LocalDate;
@@ -328,5 +331,66 @@ public class DatabaseService {
 		}
 		return "";
 	}
+
+	public Vector<String> getAllEmployeeNames() throws SQLException {
+		String statement = "CALL get_all_employee_names()";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<String> employeeNames = new Vector<>();
+		while (resultSet.next()) {
+			employeeNames.add(resultSet.getString("nume"));
+		}
+		return employeeNames;
+	}
+
+	public Vector<String> getAllRanks() throws SQLException {
+		String statement = "CALL get_all_ranks()";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<String> rankNames = new Vector<>();
+		while (resultSet.next()) {
+			rankNames.add(resultSet.getString("denumire_functie"));
+		}
+		return rankNames;
+	}
+
+	public Vector<GenericTimetable> getEmployeeGenericTimetable(String _name, String _surname) throws SQLException {
+		String statement = "CALL get_employee_generic_timetable(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, this.getMedicCnpByName(_name, _surname));
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<GenericTimetable> genericTimetable = new Vector<>();
+		while (resultSet.next()) {
+			genericTimetable.add(new GenericTimetable(resultSet.getString("zi"), resultSet.getTime("ora_incepere"),
+					resultSet.getTime("ora_terminare"), resultSet.getString("denumire_unitate_medicala")));
+		}
+		return genericTimetable;
+	}
+
+	public Vector<SpecificTimetable> getEmployeeSpecificTimetable(String _name, String _surname, Date _month) throws SQLException {
+		String statement = "CALL get_employee_specific_timetable(?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, this.getMedicCnpByName(_name, _surname));
+		cs.setDate(2, _month);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<SpecificTimetable> specificTimetable = new Vector<>();
+		while (resultSet.next()) {
+			specificTimetable.add(new SpecificTimetable(resultSet.getDate("data"), resultSet.getTime("ora_incepere"),
+					resultSet.getTime("ora_terminare"), resultSet.getString("denumire_unitate_medicala")));
+		}
+		return specificTimetable;
+	}
+
+
 
 }

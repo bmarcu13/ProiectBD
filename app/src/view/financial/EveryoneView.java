@@ -32,7 +32,6 @@ public class EveryoneView extends JPanel {
         try {
             MaskFormatter formatter = new MaskFormatter("####");
             formatter.setValidCharacters("0123456789");
-            formatter.setPlaceholderCharacter('_');
 
             this.yearHolder = new JFormattedTextField();
             this.yearHolder.setFormatterFactory(new DefaultFormatterFactory(formatter));

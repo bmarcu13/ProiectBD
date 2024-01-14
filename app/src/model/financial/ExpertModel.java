@@ -138,7 +138,6 @@ public class ExpertModel {
         this.getAllMedicalUnits();
         // iterate through the medical units data and add it to the vector
         this.medicalUnits.forEach((medicalUnitID, medicalUnitName) -> {
-            System.out.println("ID: " + medicalUnitID + ", Name " + medicalUnitName);
             try {
                 medicalUnitsProfits.add(new MedicalUnitProfitData(medicalUnitID, medicalUnitName, this.getMedicalUnitIncome(medicalUnitID),
                         this.getMedicalUnitExpenses(medicalUnitID), this.getMedicalUnitProfits(medicalUnitID)));

@@ -45,7 +45,12 @@ public class ExpertController {
         });
 
         this.expertView.getYearHolder().addActionListener(e -> {
-            this.expertModel.setYear(Integer.parseInt(this.expertView.getYearHolder().getText()));
+            try {
+                int temp_year = Integer.parseInt(expertView.getYearHolder().getText());
+                expertModel.setYear(temp_year);
+
+            } catch (NumberFormatException ex) {
+            }
         });
 
         this.expertView.getYearHolder().addFocusListener(new FocusAdapter() {
