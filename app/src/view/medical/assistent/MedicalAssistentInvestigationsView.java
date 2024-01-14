@@ -1,4 +1,4 @@
-package view.medical;
+package view.medical.assistent;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,6 +9,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import model.Investigation;
 import view.medical.resources.InvestigationSection;
@@ -35,6 +36,7 @@ public class MedicalAssistentInvestigationsView extends JPanel{
 		buttonsContainer.add(finishButton);
 		add(buttonsContainer, BorderLayout.SOUTH);
 		investigationContainer.setLayout(investigationContainerBoxLayout);
+		investigationContainer.setBorder(new EmptyBorder(10, 10, 10, 10));
 		add(investigationContainer);
 	}
 	
@@ -42,7 +44,6 @@ public class MedicalAssistentInvestigationsView extends JPanel{
 	private void renderInvestigationList()
 	{
 		investigationContainer.removeAll();
-		investigationContainer.add(Box.createVerticalStrut(10));
 		for(InvestigationSection i : addedInvestigations)
 		{
 			investigationContainer.add(i);

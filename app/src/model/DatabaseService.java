@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Vector;
 
+import com.mysql.cj.xdevapi.Result;
+
 public class DatabaseService {
 	private static DatabaseService databaseService = null;
 	
@@ -231,8 +233,6 @@ public class DatabaseService {
 	{
 		String statement = "CALL insert_investigation_result(?, ?, ?, ?)";
 		CallableStatement cs = connection.prepareCall(statement);
-		
-//		System.out.println(investigation.getId() + " " + appointmentId + " " +investigation.getValue());
 				
 		cs.setInt(1, investigation.getId());
 		cs.setInt(2, appointmentId);
@@ -245,6 +245,115 @@ public class DatabaseService {
 		{
 			cs.setInt(3, investigation.getValue());
 			cs.setNull(4, java.sql.Types.TINYINT);
+		}
+		
+		cs.execute();
+	}
+	
+	public Vector<Appointment> getAppointments(String doctorCnp, LocalDate date) throws SQLException
+	{
+		String statement = "CALL get_appointments(?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setDate(1, Date.valueOf(date));
+		cs.setNString(2, doctorCnp);
+		
+		ResultSet results = cs.executeQuery();
+		
+		Vector<Appointment> appointments = new Vector<Appointment>();
+		
+		while(results.next())
+		{
+			appointments.add(new Appointment(results.getInt(1),	results.getNString(2), results.getNString(3), results.getTime(4).toLocalTime(), results.getBoolean(5)));
+		}
+		
+		return appointments;
+	}
+	
+	public String getUserCNP(String email) throws SQLException
+	{
+		String statement = "CALL get_user_cnp(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setNString(1, email);
+		ResultSet results = cs.executeQuery();
+		
+		results.next();
+		
+		return results.getNString(1);
+	}
+	
+	public Vector<Investigation> getExistingServices(int appointmentId) throws SQLException
+	{
+		String statement = "CALL get_existing_services(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setInt(1, appointmentId);
+		
+		ResultSet results = cs.executeQuery();
+		
+		Vector<Investigation> existingServices = new Vector<Investigation>();
+		
+		while(results.next())
+		{
+			existingServices.add(new Investigation(results.getInt(2), results.getNString(1)));
+		}
+		
+		return existingServices;
+	}
+	
+	public Vector<Investigation> getSelectableServices(String doctorCNP) throws SQLException
+	{
+		String statement = "CALL get_selectable_services(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setNString(1, doctorCNP);
+		ResultSet results = cs.executeQuery();
+		
+		Vector<Investigation> selectableServices = new Vector<Investigation>();
+		
+		while(results.next())
+		{
+			selectableServices.add(new Investigation(results.getInt(2), results.getNString(1)));
+		}
+		
+		return selectableServices;
+	}
+	
+	public String getDoctorName(String doctorCNP) throws SQLException
+	{
+		String statement = "SELECT CONCAT(nume, ' ', prenume) FROM angajat where cnp_angajat =" + doctorCNP;
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		ResultSet results = cs.executeQuery();
+		results.next();
+		return results.getNString(1);
+	}
+	
+	public void insertMedicalReport(MedicalReport mr) throws SQLException
+	{
+		String statement = "CALL insert_medical_report(?, ?, ?, ?, ?, ?, ?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		cs.setInt(1, mr.getAppointmentId());
+		cs.setNString(2, mr.getRecommendingDoctorFirstName());
+		cs.setNString(3, mr.getRecommendingDoctorSecondName());
+		cs.setNString(4, mr.getAssistentFirstName());
+		cs.setNString(5, mr.getAssistentSecondName());
+		cs.setNString(6, mr.getSimptoms());
+		cs.setNString(7, mr.getDiagnosis());
+		cs.setNString(8, mr.getRecommendations());
+		
+		String medicalServicesStatement = "CALL insert_medical_service_result(?, ?, ?)";
+		CallableStatement cs2 = connection.prepareCall(medicalServicesStatement);
+		
+		for(Investigation i : mr.getServices())
+		{
+			cs2.setInt(1, i.getId());
+			cs2.setInt(2, mr.getAppointmentId());
+			cs2.setNString(3, i.getRawValue());
+			
+			cs2.execute();
 		}
 		
 		cs.execute();

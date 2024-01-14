@@ -1,19 +1,17 @@
-package view.medical;
+package view.medical.doctor;
 
 import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.JPanel;
 
-public class MedicalReceptionView extends JPanel {
-	
+public class MedicalDoctorView extends JPanel{
+
 	private CardLayout cardLayout = new CardLayout();
 	
 	public static String HOME_VIEW = "HOME";
-	public static String APPOINTMENT_VIEW = "APPOINTMENT";
 	
-	
-	public MedicalReceptionView() {
+	public MedicalDoctorView() {
 		setLayout(cardLayout);
 		setBackground(Color.darkGray);
 	}

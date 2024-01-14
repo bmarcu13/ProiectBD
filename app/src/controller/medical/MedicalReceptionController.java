@@ -13,9 +13,9 @@ import model.AuthenticationService;
 import model.DatabaseService;
 import model.Doctor;
 import model.MedicalService;
-import view.medical.CreateAppointmentView;
-import view.medical.MedicalReceptionHomeView;
-import view.medical.MedicalReceptionView;
+import view.medical.reception.CreateAppointmentView;
+import view.medical.reception.MedicalReceptionHomeView;
+import view.medical.reception.MedicalReceptionView;
 import view.medical.resources.AppointmentSection;
 
 public class MedicalReceptionController {

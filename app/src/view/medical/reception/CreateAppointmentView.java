@@ -1,4 +1,4 @@
-package view.medical;
+package view.medical.reception;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

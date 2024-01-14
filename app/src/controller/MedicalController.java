@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import model.AuthenticationService;
 import view.MainView;
 import view.MedicalView;
-import view.medical.MedicalReceptionView;
+import view.medical.reception.MedicalReceptionView;
 
 public class MedicalController {
 	

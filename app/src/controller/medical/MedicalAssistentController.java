@@ -8,9 +8,9 @@ import javax.swing.JButton;
 import model.AuthenticationService;
 import model.DatabaseService;
 import model.Investigation;
-import view.medical.MedicalAssistentHomeView;
-import view.medical.MedicalAssistentInvestigationsView;
-import view.medical.MedicalAssistentView;
+import view.medical.assistent.MedicalAssistentHomeView;
+import view.medical.assistent.MedicalAssistentInvestigationsView;
+import view.medical.assistent.MedicalAssistentView;
 import view.medical.resources.InvestigationSection;
 
 public class MedicalAssistentController {

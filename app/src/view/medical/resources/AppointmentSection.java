@@ -1,6 +1,8 @@
 package view.medical.resources;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,57 +16,64 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class AppointmentSection extends JPanel{
-	
-	private JLabel nameameLabel = new JLabel();
+	private JPanel nameTimePanel = new JPanel();
+	private JLabel nameLabel = new JLabel();
 	private JLabel timeLabel = new JLabel();
 	private int id;
 	
-	private JButton registerButton = new JButton();
+	private JButton button = new JButton();
 	
 	public AppointmentSection(int _index, String firstName, String secondName, LocalTime time, String buttonText)
 	{
-		registerButton.setName(String.valueOf(_index));
-		registerButton.setText(buttonText);
+		button.setName(String.valueOf(_index));
+		button.setText(buttonText);
 		
 		setBackground(Color.white);
 		
-		nameameLabel.setText(firstName + " " + secondName);
-		timeLabel.setText(time.getHour() + ":" + time.getMinute());
+		nameLabel.setText(firstName + " " + secondName);
+		timeLabel.setText(time.getHour() + ":" + (time.getMinute() > 0 ? time.getMinute() : time.getMinute() + "0"));
 		
-		setLayout(new GridBagLayout());
+		nameTimePanel.setLayout(new GridBagLayout());
+		nameTimePanel.setBackground(Color.white);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLayout(new BorderLayout());
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		
 		int sectionWidth = 5;
 		
 		constraints.gridx = 0;
-		constraints.gridy = 0;
-		constraints.gridwidth = sectionWidth;
-		add(Box.createHorizontalStrut(300), constraints);
-		
-		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		constraints.anchor = GridBagConstraints.WEST;
-		add(nameameLabel, constraints);
+		nameTimePanel.add(nameLabel, constraints);
 		
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		constraints.anchor = GridBagConstraints.WEST;
-		add(timeLabel, constraints);
+		nameTimePanel.add(timeLabel, constraints);
 		
-		constraints.gridx = 4;
-		constraints.gridy = 0;
-		constraints.gridheight = 3;
-		constraints.insets = new Insets(0, 0, 0, 0);
-		constraints.anchor = GridBagConstraints.EAST;
-		add(registerButton, constraints);
+		add(nameTimePanel, BorderLayout.WEST);
+		
+		add(button, BorderLayout.EAST);
 	}
 	
-	public void setRegisterButtonActionListener(ActionListener al)
+	public void setRegisteredAppointment(boolean isRegistered)
 	{
-		registerButton.addActionListener(al);
+		if(isRegistered)
+		{			
+			setBackground(Color.yellow);
+			nameTimePanel.setBackground(Color.yellow);
+		}
+		else
+		{
+			setBackground(Color.white);
+		}
+	}
+	
+	public void setButtonActionListener(ActionListener al)
+	{
+		button.addActionListener(al);
 	}
 }

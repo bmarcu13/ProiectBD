@@ -1,4 +1,4 @@
-package view.medical;
+package view.medical.reception;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -60,7 +60,7 @@ public class MedicalReceptionHomeView extends JPanel{
 			AppointmentSection s  = new AppointmentSection(a.getId(), a.getPatientFirstName(), a.getPatientSecondName(), a.getTime(), "Inregistrare");
 			s.setMaximumSize(new Dimension(310, 50));
 			if(registerButtonActionListener != null)			
-				s.setRegisterButtonActionListener(registerButtonActionListener);
+				s.setButtonActionListener(registerButtonActionListener);
 			leftPanel.add(s);
 			leftPanel.add(Box.createVerticalStrut(5));
 		}

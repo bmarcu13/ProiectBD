@@ -1,4 +1,4 @@
-package view.medical;
+package view.medical.assistent;
 
 import java.awt.CardLayout;
 import java.awt.Color;

@@ -6,6 +6,7 @@ public class Investigation {
 	private int id;
 	private String name;
 	private int value = -1;
+	private String rawValue;
 
 	private int lowerBound = 0;
 	private int upperBound = 0;
@@ -61,6 +62,14 @@ public class Investigation {
 
 	public void setValue(int value) {
 		this.value = value;
+	}
+	
+	public String getRawValue() {
+		return rawValue;
+	}
+
+	public void setRawValue(String value) {
+		this.rawValue = value;
 	}
 	
 	public Vector<Investigation> getSelectableInvestigations()
