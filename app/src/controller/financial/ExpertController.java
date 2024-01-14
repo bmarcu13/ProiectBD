@@ -24,33 +24,28 @@ public class ExpertController {
     private void setListeners() {
         this.expertView.getMonthHolder().addActionListener(e -> {
             this.expertModel.setSelectedMonth(this.expertView.getMonthHolder().getSelectedItem().toString());
-            System.out.println("From the month listener: " + this.expertModel.getSelectedMonth());
         });
 
         this.expertView.getMonthHolder().addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 expertModel.setSelectedMonth(expertView.getMonthHolder().getSelectedItem().toString());
-                System.out.println("From the month listener: " + expertModel.getSelectedMonth());
             }
         });
 
         this.expertView.getMedicProfitsMonthHolder().addActionListener(e -> {
             this.expertModel.setSelectedMedicProfitsMonth(this.expertView.getMedicProfitsMonthHolder().getSelectedItem().toString());
-            System.out.println("From the month listener: " + this.expertModel.getSelectedMedicProfitsMonth());
         });
 
         this.expertView.getMedicProfitsMonthHolder().addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 expertModel.setSelectedMonth(expertView.getMedicProfitsMonthHolder().getSelectedItem().toString());
-                System.out.println("From the month listener: " + expertModel.getSelectedMedicProfitsMonth());
             }
         });
 
         this.expertView.getYearHolder().addActionListener(e -> {
             this.expertModel.setYear(Integer.parseInt(this.expertView.getYearHolder().getText()));
-            System.out.println("From the year listener: " + this.expertModel.getYear());
         });
 
         this.expertView.getYearHolder().addFocusListener(new FocusAdapter() {
@@ -62,7 +57,6 @@ public class ExpertController {
 
                 } catch (NumberFormatException ex) {
                 }
-                System.out.println("From the year listener: " + expertModel.getYear());
             }
         });
 
@@ -73,7 +67,6 @@ public class ExpertController {
             } catch (NumberFormatException ex) {
                 ex.printStackTrace();
             }
-            System.out.println("From the year listener: " + this.expertModel.getMedicProfitsYear());
         });
 
         this.expertView.getMedicProfitsYearHolder().addFocusListener(new FocusAdapter() {
@@ -86,7 +79,6 @@ public class ExpertController {
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
-                System.out.println("From the year listener: " + expertModel.getMedicProfitsYear());
             }
         });
 
@@ -103,14 +95,12 @@ public class ExpertController {
 
         this.expertView.getNameHolder().addActionListener(e -> {
             this.expertModel.setSelectedName(this.expertView.getNameHolder().getSelectedItem().toString());
-            System.out.println("From the name listener: " + this.expertModel.getSelectedName());
         });
 
         this.expertView.getNameHolder().addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 expertModel.setSelectedName(expertView.getNameHolder().getSelectedItem().toString());
-                System.out.println("From the name listener: " + expertModel.getSelectedName());
             }
         });
 

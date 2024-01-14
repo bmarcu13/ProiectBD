@@ -25,20 +25,17 @@ public class MedicProfitsController {
         this.medicProfitsModel = _medicProfitsModel;
         this.medicProfitsView.getMonthHolder().addActionListener(e -> {
             this.medicProfitsModel.setSelectedMonth(this.medicProfitsView.getMonthHolder().getSelectedItem().toString());
-            System.out.println("From the month listener: " + this.medicProfitsModel.getSelectedMonth());
         });
 
         this.medicProfitsView.getMonthHolder().addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 medicProfitsModel.setSelectedMonth(medicProfitsView.getMonthHolder().getSelectedItem().toString());
-                System.out.println("From the month listener: " + medicProfitsModel.getSelectedMonth());
             }
         });
 
         this.medicProfitsView.getYearHolder().addActionListener(e -> {
             this.medicProfitsModel.setYear(Integer.parseInt(this.medicProfitsView.getYearHolder().getText()));
-            System.out.println("From the year listener: " + this.medicProfitsModel.getYear());
         });
 
         this.medicProfitsView.getYearHolder().addFocusListener(new FocusAdapter() {
@@ -49,7 +46,6 @@ public class MedicProfitsController {
                     medicProfitsModel.setYear(temp_year);
                 } catch(NumberFormatException ex) {
                 }
-                System.out.println("From the year listener: " + medicProfitsModel.getYear());
             }
         });
 

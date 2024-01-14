@@ -19,20 +19,17 @@ public class EveryoneController {
 
         this.everyoneView.getMonthHolder().addActionListener(e -> {
             this.everyoneModel.setSelectedMonth(this.everyoneView.getMonthHolder().getSelectedItem().toString());
-            System.out.println("From the month listener: " + this.everyoneModel.getSelectedMonth());
         });
 
         this.everyoneView.getMonthHolder().addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 everyoneModel.setSelectedMonth(everyoneView.getMonthHolder().getSelectedItem().toString());
-                System.out.println("From the month listener: " + everyoneModel.getSelectedMonth());
             }
         });
 
         this.everyoneView.getYearHolder().addActionListener(e -> {
             this.everyoneModel.setYear(Integer.parseInt(this.everyoneView.getYearHolder().getText()));
-            System.out.println("From the year listener: " + this.everyoneModel.getYear());
         });
 
         this.everyoneView.getYearHolder().addFocusListener(new FocusAdapter() {
@@ -44,7 +41,6 @@ public class EveryoneController {
 
                 } catch (NumberFormatException ex) {
                 }
-                System.out.println("From the year listener: " + everyoneModel.getYear());
             }
         });
 
