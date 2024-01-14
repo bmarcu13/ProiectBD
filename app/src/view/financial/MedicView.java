@@ -36,7 +36,12 @@ public class MedicView extends JPanel {
     public void initTable(Object[][] tableData) {
         String[] columnNames = {"Unitate medicala", "ID unitate", "Venit generat", "Salariu", "Profit generat"};
         if (!this.setTable) {
-            this.model = new DefaultTableModel(tableData, columnNames);
+            this.model = new DefaultTableModel(tableData, columnNames) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             this.table = new JTable(this.model);
             this.setTable = true;
             this.tableScrollPane = new JScrollPane(table);

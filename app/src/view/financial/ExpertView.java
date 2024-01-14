@@ -16,7 +16,7 @@ import java.util.Vector;
 
 public class ExpertView extends JPanel {
     private EveryoneView everyoneView;
-
+    private JPanel expertFunctionalityContainer = new JPanel(new FlowLayout());
     private boolean setTable = false;
     private final JPanel viewUnitProfits = new JPanel();
     private final JPanel inputPanel = new JPanel();
@@ -26,7 +26,8 @@ public class ExpertView extends JPanel {
     private final JFormattedTextField yearHolder = new JFormattedTextField();
     private final JButton submit = new JButton();
     private final JLabel errorMessage = new JLabel();
-
+    private final JPanel dateProfitsPanel = new JPanel(new FlowLayout());
+    private final JLabel yearProfitsHolderLabel = new JLabel("Year");
     private final JFormattedTextField medicProfitsYearHolder = new JFormattedTextField();
     private final JComboBox<String> medicProfitsMonthHolder;
 
@@ -44,6 +45,8 @@ public class ExpertView extends JPanel {
     JScrollPane profitsTableScrollPane;
     public ExpertView(EveryoneView _everyoneView) {
         this.everyoneView = _everyoneView;
+        this.viewUnitProfits.setLayout(new BoxLayout(this.viewUnitProfits, BoxLayout.Y_AXIS));
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -83,18 +86,18 @@ public class ExpertView extends JPanel {
         this.submit.setAlignmentX(JPanel.CENTER_ALIGNMENT);
         this.inputPanel.add(this.submit);
 
+//        gbc.gridx = 1;
+//        gbc.gridy = 0;
+//        gbc.gridwidth = 1;
+//        gbc.gridheight = 1;
+        this.viewUnitProfits.add(this.inputPanel);
+
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        this.add(this.inputPanel, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        this.add(this.viewUnitProfits, gbc);
-
+        this.expertFunctionalityContainer.add(this.viewUnitProfits);
+        this.add(this.expertFunctionalityContainer, gbc);
         try {
             MaskFormatter formatter = new MaskFormatter("####");
             formatter.setValidCharacters("0123456789");
@@ -127,11 +130,16 @@ public class ExpertView extends JPanel {
             customTableData.add(row);
         }
         if (!this.setTable) {
-            this.model = new DefaultTableModel(customTableData, new Vector<>(Arrays.asList(columnNames)));
+            this.model = new DefaultTableModel(customTableData, new Vector<>(Arrays.asList(columnNames))) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             this.table = new JTable(this.model);
             this.setTable = true;
             this.tableScrollPane = new JScrollPane(table);
-            this.tableScrollPane.setPreferredSize(new Dimension(500, 300));
+//            this.tableScrollPane.setPreferredSize(new Dimension(500, 300));
             this.viewUnitProfits.add(this.tableScrollPane);
             this.viewUnitProfits.revalidate();
             this.viewUnitProfits.repaint();
@@ -191,11 +199,16 @@ public class ExpertView extends JPanel {
         this.medicProfits.setPreferredSize(new Dimension(200, 17));
 
         this.viewMedicProfitsContainer.add(this.nameHolder);
-        this.viewMedicProfitsContainer.add(this.medicProfitsYearHolder);
-        this.viewMedicProfitsContainer.add(this.medicProfitsMonthHolder);
+
+        this.dateProfitsPanel.add(this.yearProfitsHolderLabel);
+        this.dateProfitsPanel.add(this.medicProfitsYearHolder);
+        this.dateProfitsPanel.add(this.medicProfitsMonthHolder);
+
+        this.viewMedicProfitsContainer.add(this.dateProfitsPanel);
+
         this.viewMedicProfitsContainer.add(this.viewMedicProfits);
         this.viewMedicProfitsContainer.add(this.medicProfits);
-        this.add(this.viewMedicProfitsContainer, gbc);
+        this.expertFunctionalityContainer.add(this.viewMedicProfitsContainer);
     }
 
     public void initProfitsTable(Vector<MedicProfitData> tableData) {
@@ -210,7 +223,12 @@ public class ExpertView extends JPanel {
             customTableData.add(row);
         }
         if (!this.setProfitsTable) {
-            this.profitsModel = new DefaultTableModel(customTableData, new Vector<>(Arrays.asList(columnNames)));
+            this.profitsModel = new DefaultTableModel(customTableData, new Vector<>(Arrays.asList(columnNames))) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             this.profitsTable = new JTable(this.profitsModel);
             this.setProfitsTable = true;
             this.profitsTableScrollPane = new JScrollPane(this.profitsTable);
