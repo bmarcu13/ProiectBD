@@ -300,4 +300,33 @@ public class DatabaseService {
 		return medicalUnits;
 	}
 
+	public Vector<String> getAllMedicNames() throws SQLException {
+		String statement = "CALL get_all_medic_names()";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<String> medicNames = new Vector<>();
+		while (resultSet.next()) {
+			medicNames.add(resultSet.getString("nume"));
+		}
+		return medicNames;
+	}
+
+	public String getMedicCnpByName(String _name, String _surname) throws SQLException {
+		String statement = "SELECT get_medic_cnp_by_name(?, ?) AS cnp_medic";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _name);
+		preparedStatement.setString(2, _surname);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("cnp_medic");
+		}
+		return "";
+	}
+
 }

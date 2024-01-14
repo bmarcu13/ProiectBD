@@ -1,6 +1,7 @@
 package view.financial;
 
 import controller.financial.EveryoneController;
+import model.financial.MedicProfitData;
 import model.financial.MedicalUnitProfitData;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -25,10 +27,21 @@ public class ExpertView extends JPanel {
     private final JButton submit = new JButton();
     private final JLabel errorMessage = new JLabel();
 
+    private final JFormattedTextField medicProfitsYearHolder = new JFormattedTextField();
+    private final JComboBox<String> medicProfitsMonthHolder;
 
+    private boolean setProfitsTable = false;
+    private JComboBox<String> nameHolder;
+    private JPanel viewMedicProfitsContainer = new JPanel();
+    private JButton viewMedicProfits = new JButton();
+    private JLabel medicProfits = new JLabel("");
     DefaultTableModel model;
     JTable table;
     JScrollPane tableScrollPane;
+
+    DefaultTableModel profitsModel;
+    JTable profitsTable;
+    JScrollPane profitsTableScrollPane;
     public ExpertView(EveryoneView _everyoneView) {
         this.everyoneView = _everyoneView;
         GridBagConstraints gbc = new GridBagConstraints();
@@ -81,6 +94,23 @@ public class ExpertView extends JPanel {
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         this.add(this.viewUnitProfits, gbc);
+
+        try {
+            MaskFormatter formatter = new MaskFormatter("####");
+            formatter.setValidCharacters("0123456789");
+            formatter.setPlaceholderCharacter('_');
+
+            this.medicProfitsYearHolder.setFormatterFactory(new DefaultFormatterFactory(formatter));
+            this.medicProfitsYearHolder.setFocusLostBehavior(JFormattedTextField.COMMIT_OR_REVERT);
+            this.medicProfitsYearHolder.setPreferredSize(new Dimension(50, 18));
+            this.medicProfitsYearHolder.setHorizontalAlignment(JTextField.CENTER);
+
+        } catch(ParseException e) {
+            this.showErrorMessage("Please enter a valid year");
+            e.printStackTrace();
+        }
+
+        this.medicProfitsMonthHolder = new JComboBox<>(months);
     }
 
     public void initTable(Vector<MedicalUnitProfitData> tableData) {
@@ -123,6 +153,76 @@ public class ExpertView extends JPanel {
 
     public JButton getSubmitHolder() {
         return this.submit;
+    }
+    public JComboBox<String> getNameHolder() {
+        return this.nameHolder;
+    }
+
+    public void setNameHolderNames(Vector<String> medicNames) {
+        this.nameHolder = new JComboBox<>(medicNames);
+    }
+
+    public JButton getViewMedicProfits() {
+        return this.viewMedicProfits;
+    }
+
+    public void setMedicProfitsText(String _text) {
+        this.setMedicProfitsText(_text);
+    }
+    public JFormattedTextField getMedicProfitsYearHolder() {
+        return this.medicProfitsYearHolder;
+    }
+
+    public JComboBox<String> getMedicProfitsMonthHolder() {
+        return this.medicProfitsMonthHolder;
+    }
+
+    public void addNameHolderToView() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        this.viewMedicProfitsContainer.setLayout(new BoxLayout(this.viewMedicProfitsContainer, BoxLayout.Y_AXIS));
+        this.nameHolder.setAlignmentX(CENTER_ALIGNMENT);
+        this.viewMedicProfits.setAlignmentX(CENTER_ALIGNMENT);
+        this.medicProfits.setAlignmentX(CENTER_ALIGNMENT);
+        this.viewMedicProfits.setText("View medic profit");
+        this.medicProfits.setPreferredSize(new Dimension(200, 17));
+
+        this.viewMedicProfitsContainer.add(this.nameHolder);
+        this.viewMedicProfitsContainer.add(this.medicProfitsYearHolder);
+        this.viewMedicProfitsContainer.add(this.medicProfitsMonthHolder);
+        this.viewMedicProfitsContainer.add(this.viewMedicProfits);
+        this.viewMedicProfitsContainer.add(this.medicProfits);
+        this.add(this.viewMedicProfitsContainer, gbc);
+    }
+
+    public void initProfitsTable(Vector<MedicProfitData> tableData) {
+        String[] columnNames = {"Unitate medicala", "ID unitate", "Profit medic"};
+        Vector<Vector<Object>> customTableData = new Vector<>();
+        for (MedicProfitData medicProfitData: tableData) {
+            Vector<Object> row = new Vector<>();
+            row.add(medicProfitData.getUnitId());
+            row.add(medicProfitData.getUnitName());
+            row.add(medicProfitData.getMedicProfit());
+
+            customTableData.add(row);
+        }
+        if (!this.setProfitsTable) {
+            this.profitsModel = new DefaultTableModel(customTableData, new Vector<>(Arrays.asList(columnNames)));
+            this.profitsTable = new JTable(this.profitsModel);
+            this.setProfitsTable = true;
+            this.profitsTableScrollPane = new JScrollPane(this.profitsTable);
+            this.viewMedicProfitsContainer.add(this.profitsTableScrollPane);
+            this.viewMedicProfitsContainer.revalidate();
+            this.viewMedicProfitsContainer.repaint();
+        }
+
+        this.profitsModel.setDataVector(customTableData, new Vector<>(Arrays.asList(columnNames)));
+
+        this.profitsTableScrollPane.revalidate();
+        this.profitsTableScrollPane.repaint();
     }
 
     public void showErrorMessage(String _message) {

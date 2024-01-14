@@ -5,6 +5,7 @@ import model.DatabaseService;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Vector;
@@ -14,6 +15,9 @@ public class ExpertModel {
     private String selectedMonth = "Ianuarie";
     private int year;
     private HashMap<Integer, String> medicalUnits;
+    private String selectedName = "";
+    private String selectedMedicProfitsMonth = "Ianuarie";
+    private int medicProfitsYear;
 
     public String getSelectedMonth() {
         return this.selectedMonth;
@@ -31,8 +35,32 @@ public class ExpertModel {
         this.year = _year;
     }
 
-    protected int convertMonth() {
-        switch (this.selectedMonth) {
+    public String getSelectedName() {
+        return this.selectedName;
+    }
+
+    public void setSelectedName(String _name) {
+        this.selectedName = _name;
+    }
+
+    public void setSelectedMedicProfitsMonth(String _month) {
+        this.selectedMedicProfitsMonth = _month;
+    }
+
+    public String getSelectedMedicProfitsMonth() {
+        return this.selectedMedicProfitsMonth;
+    }
+
+    public void setMedicProfitsYear(int _year) {
+        this.medicProfitsYear = _year;
+    }
+
+    public int getMedicProfitsYear() {
+        return this.medicProfitsYear;
+    }
+
+    protected int convertMonth(String _month) {
+        switch (_month) {
             case "Ianuarie":
                 return 1;
             case "Februarie":
@@ -68,7 +96,7 @@ public class ExpertModel {
     public int getMedicalUnitIncome(int _medicalUnitID) throws SQLException {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, this.year);
-        calendar.set(Calendar.MONTH, this.convertMonth() - 1);
+        calendar.set(Calendar.MONTH, this.convertMonth(this.selectedMonth) - 1);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
 
         long milliseconds = calendar.getTimeInMillis();
@@ -80,7 +108,7 @@ public class ExpertModel {
     public int getMedicalUnitExpenses(int _medicalUnitID) throws SQLException {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, this.year);
-        calendar.set(Calendar.MONTH, this.convertMonth() - 1);
+        calendar.set(Calendar.MONTH, this.convertMonth(this.selectedMonth) - 1);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
 
         long milliseconds = calendar.getTimeInMillis();
@@ -92,7 +120,7 @@ public class ExpertModel {
     public int getMedicalUnitProfits(int _medicalUnitID) throws SQLException {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, this.year);
-        calendar.set(Calendar.MONTH, this.convertMonth() - 1);
+        calendar.set(Calendar.MONTH, this.convertMonth(this.selectedMonth) - 1);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
 
         long milliseconds = calendar.getTimeInMillis();
@@ -120,5 +148,52 @@ public class ExpertModel {
             }
         });
         return medicalUnitsProfits;
+    }
+
+    public Vector<String> getAllMedicNames() {
+        try {
+            return this.databaseService.getAllMedicNames();
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+            return new Vector<>();
+        }
+    }
+
+    public ArrayList<Integer> getMedicWorkingUnits() {
+        String name = selectedName.split(" ")[0];
+        String surname = selectedName.split(" ")[1];
+        try {
+            return this.databaseService.getMedicWorkingUnits(this.databaseService.getMedicCnpByName(name, surname));
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public Vector<MedicProfitData> getMedicProfitOnWorkingUnits() {
+        String name = selectedName.split(" ")[0];
+        String surname = selectedName.split(" ")[1];
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, this.medicProfitsYear);
+        calendar.set(Calendar.MONTH, this.convertMonth(this.selectedMedicProfitsMonth) - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+        long milliseconds = calendar.getTimeInMillis();
+
+        Date date = new Date(milliseconds);
+
+        Vector<MedicProfitData> medicProfits = new Vector<>();
+        for (Integer workingUnit: this.getMedicWorkingUnits()) {
+            try {
+                medicProfits.add(new MedicProfitData(workingUnit, this.databaseService.getMedicalUnitName(workingUnit),
+                        this.databaseService.getMedicProfitOnOneUnit(this.databaseService.getMedicCnpByName(name, surname), date, workingUnit)));
+            } catch(SQLException ex) {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+
+        return medicProfits;
     }
 }
