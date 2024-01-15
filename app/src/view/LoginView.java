@@ -26,7 +26,7 @@ public class LoginView extends JPanel
 	
 	public LoginView() 
 	{
-		initComponen();
+		initComponent();
 	}
 	
 	public void initComponent() {

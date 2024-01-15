@@ -1,19 +1,17 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JPanel;
 
+import model.AuthenticationService;
+import view.medical.reception.MedicalReceptionView;
+
 public class MedicalView extends JPanel
 {
-
 	public MedicalView()
-	{
-		initComponent();
+	{	
+		setLayout(new BorderLayout());
 	}
-	
-	public void initComponent() {
-		setBackground(Color.orange);
-	}
-
 }

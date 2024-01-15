@@ -1,5 +1,10 @@
 package controller;
 
+import java.util.Map;
+
+import javax.swing.JPanel;
+
+import model.AuthenticationService;
 import view.ApplicationView;
 import view.MainView;
 
@@ -7,30 +12,34 @@ public class MainController
 {
 	
 	private MainView mainView;
-	private ApplicationView appApplicationView;
+	private ApplicationView applicationView;
+	private AuthenticationService authenticationService;
 	
-	public MainController(MainView _mainView, ApplicationView _appApplicationView)
+	public MainController(MainView _mainView, AuthenticationService _authenticationService, ApplicationView _appApplicationView, Map<String, JPanel> children)
 	{
 		this.mainView = _mainView;
-		this.appApplicationView = _appApplicationView;
+		this.applicationView = _appApplicationView;
+		this.authenticationService = _authenticationService;
 		
-		this.appApplicationView.addCardComponent("MAIN", mainView);
+		this.applicationView.addCardComponent("MAIN", mainView);
+		
+		children.forEach((String key, JPanel jpanel) -> 
+		{
+			mainView.addTab(key, jpanel);	
+		});
 		
 		mainView.setHrButtonListener(e -> 
 		{
-			System.out.println("ceva1");
 			mainView.switchTab(MainView.HR_TAB);
 		});
 		
 		mainView.setFinancialButtonListener(e -> 
 		{
-			System.out.println("ceva2");
 			mainView.switchTab(MainView.FINANCIAL_TAB);
 		});
 		
 		mainView.setMedicalButtonListener(e -> 
 		{
-			System.out.println("ceva2");
 			mainView.switchTab(MainView.MEDICAL_TAB);
 		});
 	}
