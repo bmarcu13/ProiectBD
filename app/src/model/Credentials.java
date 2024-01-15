@@ -3,7 +3,6 @@ package model;
 public class Credentials {
 	private String username;
 	private String password;
-	
 	public Credentials(String username, String password) {
 		super();
 		this.username = username;

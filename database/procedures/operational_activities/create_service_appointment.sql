@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `create_service_appointment`(
 	in p_id_programare INT,
     in p_id_serviciu_medical INT
@@ -9,3 +10,5 @@ BEGIN
         p_id_serviciu_medical
     );
 END
+//
+DELIMITER ;

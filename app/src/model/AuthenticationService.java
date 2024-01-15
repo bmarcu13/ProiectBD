@@ -12,6 +12,8 @@ public class AuthenticationService {
 	private boolean isSignedIn = false;
 	private int accType;
 	private String username;
+
+	private String email;
 	
 	private List<Callback> callbacks = new ArrayList<Callback>();
 
@@ -25,10 +27,10 @@ public class AuthenticationService {
 	
 	public void signIn(Credentials credentials) throws SQLException, IncorrectCredentialsException
 	{
+		this.email = credentials.getUsername();
 		databaseService.connectToDatabaseGeneric();
 		
 		Credentials dbCredentials = databaseService.getAccountDetails(credentials);
-		
 		if(dbCredentials.getPassword() == null)
 		{
 			throw new IncorrectCredentialsException();
@@ -88,4 +90,5 @@ public class AuthenticationService {
 	{
 		return username;
 	}
+	public String getEmail() { return this.email; }
 }

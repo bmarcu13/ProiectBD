@@ -4,6 +4,8 @@ import java.net.PasswordAuthentication;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 import com.mysql.cj.xdevapi.Result;
@@ -42,6 +44,7 @@ public class DatabaseService {
 	
 	public Credentials getAccountDetails(Credentials credentials) throws SQLException
 	{
+		System.out.println("Yo Yo Yo " + credentials.getUsername());
 		String statement = "CALL get_account_credentials(?, ?, ?, ?, ?)";
 		CallableStatement cs = connection.prepareCall(statement);
 		
@@ -146,7 +149,189 @@ public class DatabaseService {
 		
 		return appointments;
 	}
-	
+
+	public int getEmployeeEarnings(String _cnp, Date _date) throws SQLException {
+		String statement = "SELECT get_employee_earnings(?, ?) AS earnings";
+		PreparedStatement preparedStatement= connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _cnp);
+		preparedStatement.setDate(2, _date);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("earnings");
+		}
+		return 0;
+	}
+
+	public String getUserCnp(String userEmail) throws SQLException {
+		String statement = "SELECT get_user_cnp(?) AS user_cnp";
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, userEmail);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("user_cnp");
+		}
+		return "";
+	}
+
+	public ArrayList<Integer> getMedicWorkingUnits(String medicCNP) throws SQLException {
+		String statement = "CALL get_medic_working_units(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, medicCNP);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		ArrayList<Integer> medicalUnitIDs = new ArrayList<>();
+		while (resultSet.next()) {
+			medicalUnitIDs.add(resultSet.getInt(1));
+		}
+		return medicalUnitIDs;
+	}
+
+	public String getMedicalUnitName(int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medical_unit_name(?) AS medical_unit_name";
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setInt(1, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("medical_unit_name");
+		}
+		return "";
+	}
+
+	public int getMedicPaidServicesProfit(String medicCNP, Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medic_paid_services_profit(?, ?, ?) AS profit";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, medicCNP);
+		preparedStatement.setDate(2, date);
+		preparedStatement.setInt(3, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("profit");
+		}
+		return 0;
+	}
+
+	public int getMedicProfitOnOneUnit(String medicCNP, Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medic_profit_on_one_unit(?, ?, ?) AS profit";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, medicCNP);
+		preparedStatement.setDate(2, date);
+		preparedStatement.setInt(3, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("profit");
+		}
+		return 0;
+	}
+
+	public int getMedicalUnitIncome(Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medical_unit_income(?, ?) AS income";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setDate(1, date);
+		preparedStatement.setInt(2, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("income");
+		}
+		return 0;
+	}
+
+	public int getMedicalUnitExpenses(Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medical_unit_expenses(?, ?) AS expenses";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setDate(1, date);
+		preparedStatement.setInt(2, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("expenses");
+		}
+		return 0;
+	}
+
+	public int getMedicalUnitProfit(Date date, int medicalUnitID) throws SQLException {
+		String statement = "SELECT get_medical_unit_profit(?, ?) AS profit";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setDate(1, date);
+		preparedStatement.setInt(2, medicalUnitID);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("profit");
+		}
+		return 0;
+	}
+
+	public HashMap<Integer, String> getAllMedicalUnits() throws SQLException {
+		String statement = "CALL get_all_medical_units()";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		HashMap<Integer, String> medicalUnits = new HashMap<>();
+		while (resultSet.next()) {
+			medicalUnits.put(resultSet.getInt("id_unitate_medicala"), resultSet.getString("denumire_unitate_medicala"));
+		}
+		return medicalUnits;
+	}
+
+	public Vector<String> getAllMedicNames() throws SQLException {
+		String statement = "CALL get_all_medic_names()";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<String> medicNames = new Vector<>();
+		while (resultSet.next()) {
+			medicNames.add(resultSet.getString("nume"));
+		}
+		return medicNames;
+	}
+
+	public String getMedicCnpByName(String _name, String _surname) throws SQLException {
+		String statement = "SELECT get_medic_cnp_by_name(?, ?) AS cnp_medic";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _name);
+		preparedStatement.setString(2, _surname);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("cnp_medic");
+		}
+		return "";
+	}
+
 	public Vector<Appointment> getRegisteredAppointments() throws SQLException
 	{
 		String statement = "CALL get_registered_appointments()";

@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `create_appointment`(
 	in p_cnp_pacient VARCHAR(13), 
     in p_nume_pacient VARCHAR(20),
@@ -58,3 +59,5 @@ BEGIN
 		SET p_id = last_insert_id();
     END IF;
 END
+//
+DELIMITER ;

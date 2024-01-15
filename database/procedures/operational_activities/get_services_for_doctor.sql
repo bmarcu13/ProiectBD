@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_specializations_for_doctor`(in p_cnp_medic VARCHAR(13))
 BEGIN
 	SELECT serviciu_medical.id_serviciu_medical,
@@ -18,3 +19,5 @@ BEGIN
 	FROM serviciu_medical
 	WHERE serviciu_medical.id_serviciu_medical = 20;
 END
+//
+DELIMITER ;

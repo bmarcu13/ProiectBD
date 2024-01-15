@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_unregistered_appointments`()
 BEGIN
 	SELECT programare.id_programare, pacient.nume, pacient.prenume, programare.ora_programare
@@ -6,3 +7,5 @@ BEGIN
     WHERE programare.pacient_inregistrat = 0
 		AND programare.data_programare = curdate();
 END
+//
+DELIMITER ;
