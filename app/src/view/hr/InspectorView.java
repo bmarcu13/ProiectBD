@@ -1,6 +1,7 @@
 package view.hr;
 
 import model.hr.GenericTimetable;
+import model.hr.SpecificTimetable;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -26,6 +27,9 @@ public class InspectorView extends JPanel {
     private DefaultTableModel genericTimetableModel;
     private JTable genericTimetable;
     private Boolean isSpecificTimetableSet = false;
+    private JScrollPane specificTimetableScrollPane;
+    private DefaultTableModel specificTimetableModel;
+    private JTable specificTimetable;
     public InspectorView() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
@@ -153,6 +157,42 @@ public class InspectorView extends JPanel {
             return;
         }
         this.genericTimetableModel.setDataVector(customTableData, new Vector<>(Arrays.asList(columnNames)));
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void initSpecificTimetableTable(Vector<SpecificTimetable> specificTimetable) {
+        String[] columnNames = {"Data", "Ora incepere", "Ora terminare", "Unitate medicala"};
+        Vector<Vector<Object>> customTableData = new Vector<>();
+
+        for (SpecificTimetable specificTimetableEntry: specificTimetable) {
+            Vector<Object> row = new Vector<>();
+
+            row.add(specificTimetableEntry.getDate());
+            row.add(specificTimetableEntry.getStartTime());
+            row.add(specificTimetableEntry.getEndTime());
+            row.add(specificTimetableEntry.getMedicalUnitName());
+
+            customTableData.add(row);
+        }
+
+        if (!this.isSpecificTimetableSet) {
+            this.specificTimetableModel = new DefaultTableModel(customTableData, new Vector<>(Arrays.asList(columnNames))) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            this.specificTimetable = new JTable(this.specificTimetableModel);
+            this.isSpecificTimetableSet = true;
+            this.specificTimetableScrollPane = new JScrollPane(this.specificTimetable);
+            this.add(this.specificTimetableScrollPane);
+            this.revalidate();
+            this.repaint();
+            return;
+        }
+        this.specificTimetableModel.setDataVector(customTableData, new Vector<>(Arrays.asList(columnNames)));
         this.revalidate();
         this.repaint();
     }

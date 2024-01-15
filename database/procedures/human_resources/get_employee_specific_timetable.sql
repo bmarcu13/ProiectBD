@@ -1,5 +1,5 @@
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_emloyee_specific_timetable`(in cnp_angajat VARCHAR(13), _month DATE)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_specific_timetable`(in cnp_angajat VARCHAR(13), _month DATE)
 BEGIN
 	select data, ora_incepere, ora_terminare, unitate_medicala.denumire_unitate_medicala
     from orar

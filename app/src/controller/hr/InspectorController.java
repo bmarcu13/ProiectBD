@@ -76,7 +76,7 @@ public class InspectorController {
 
         this.inspectorView.getSubmitHolder().addActionListener(e -> {
             this.inspectorView.initGenericTimetableTable(this.inspectorModel.getEmployeeGenericTimetable());
-//            this.inspectorModel.getEmployeeSpecificTimetable();
+            this.inspectorView.initSpecificTimetableTable(this.inspectorModel.getEmployeeSpecificTimetable());
         });
 
     }
