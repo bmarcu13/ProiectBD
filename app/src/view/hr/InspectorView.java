@@ -1,5 +1,6 @@
 package view.hr;
 
+import model.hr.EmployeeVacation;
 import model.hr.GenericTimetable;
 import model.hr.SpecificTimetable;
 
@@ -30,6 +31,11 @@ public class InspectorView extends JPanel {
     private JScrollPane specificTimetableScrollPane;
     private DefaultTableModel specificTimetableModel;
     private JTable specificTimetable;
+
+    private Boolean isEmployeeVacationsTableSet = false;
+    private JScrollPane employeeVacationsTableScrollPane;
+    private DefaultTableModel employeeVacationsTableModel;
+    private JTable employeeVacationsTable;
     public InspectorView() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
@@ -41,6 +47,14 @@ public class InspectorView extends JPanel {
 
     public void initRankHolder(Vector<String> _ranks) {
         this.rankHolder = new JComboBox<>(_ranks);
+        this.rankHolder.setSelectedItem(_ranks.getFirst());
+    }
+
+    public void updateRankHolder(Vector<String> _ranks) {
+        this.rankHolder.removeAllItems();
+        for (String rank: _ranks) {
+            this.rankHolder.addItem(rank);
+        }
         this.rankHolder.setSelectedItem(_ranks.getFirst());
     }
 
@@ -149,6 +163,11 @@ public class InspectorView extends JPanel {
             };
 
             this.genericTimetable = new JTable(this.genericTimetableModel);
+
+            // Set the preferred size based on the content
+            int tableHeight = this.genericTimetable.getRowHeight() * (customTableData.size() + 1); // +1 for header
+            this.genericTimetable.setPreferredScrollableViewportSize(new Dimension(900, tableHeight));
+
             this.isGenericTimetableSet = true;
             this.genericTimetableScrollPane = new JScrollPane(this.genericTimetable);
             this.add(this.genericTimetableScrollPane);
@@ -156,6 +175,10 @@ public class InspectorView extends JPanel {
             this.repaint();
             return;
         }
+        // Set the preferred size based on the content
+        int tableHeight = this.genericTimetable.getRowHeight() * (customTableData.size() + 1); // +1 for header
+        this.genericTimetable.setPreferredScrollableViewportSize(new Dimension(900, tableHeight));
+
         this.genericTimetableModel.setDataVector(customTableData, new Vector<>(Arrays.asList(columnNames)));
         this.revalidate();
         this.repaint();
@@ -185,6 +208,11 @@ public class InspectorView extends JPanel {
             };
 
             this.specificTimetable = new JTable(this.specificTimetableModel);
+
+            // Set the preferred size based on the content
+            int tableHeight = this.specificTimetable.getRowHeight() * (customTableData.size() + 1); // +1 for header
+            this.specificTimetable.setPreferredScrollableViewportSize(new Dimension(900, tableHeight));
+
             this.isSpecificTimetableSet = true;
             this.specificTimetableScrollPane = new JScrollPane(this.specificTimetable);
             this.add(this.specificTimetableScrollPane);
@@ -192,7 +220,56 @@ public class InspectorView extends JPanel {
             this.repaint();
             return;
         }
+
+        // Set the preferred size based on the content
+        int tableHeight = this.specificTimetable.getRowHeight() * (customTableData.size() + 1); // +1 for header
+        this.specificTimetable.setPreferredScrollableViewportSize(new Dimension(900, tableHeight));
+
         this.specificTimetableModel.setDataVector(customTableData, new Vector<>(Arrays.asList(columnNames)));
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void initEmployeeVacationsTable(Vector<EmployeeVacation> employeeVacations) {
+        String[] columnNames = {"Data incepere", "Data terminare"};
+        Vector<Vector<Object>> customTableData = new Vector<>();
+
+        for (EmployeeVacation employeeVacation: employeeVacations) {
+            Vector<Object> row = new Vector<>();
+
+            row.add(employeeVacation.getStartDate());
+            row.add(employeeVacation.getEndDate());
+
+            customTableData.add(row);
+        }
+
+        if (!this.isEmployeeVacationsTableSet) {
+            this.employeeVacationsTableModel = new DefaultTableModel(customTableData, new Vector<>(Arrays.asList(columnNames))) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            this.employeeVacationsTable = new JTable(this.employeeVacationsTableModel);
+
+            // Set the preferred size based on the content
+            int tableHeight = this.employeeVacationsTable.getRowHeight() * (customTableData.size() + 1); // +1 for header
+            this.employeeVacationsTable.setPreferredScrollableViewportSize(new Dimension(900, tableHeight));
+
+            this.isEmployeeVacationsTableSet = true;
+            this.employeeVacationsTableScrollPane = new JScrollPane(this.employeeVacationsTable);
+            this.add(this.employeeVacationsTableScrollPane);
+            this.revalidate();
+            this.repaint();
+            return;
+        }
+
+        // Set the preferred size based on the content
+        int tableHeight = this.employeeVacationsTable.getRowHeight() * (customTableData.size() + 1); // +1 for header
+        this.employeeVacationsTable.setPreferredScrollableViewportSize(new Dimension(900, tableHeight));
+
+        this.employeeVacationsTableModel.setDataVector(customTableData, new Vector<>(Arrays.asList(columnNames)));
         this.revalidate();
         this.repaint();
     }

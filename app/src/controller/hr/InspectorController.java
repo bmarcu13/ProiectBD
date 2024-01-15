@@ -5,6 +5,7 @@ import view.hr.InspectorView;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.Vector;
 
 public class InspectorController {
     InspectorView inspectorView;
@@ -21,24 +22,32 @@ public class InspectorController {
 
     public void setListeners() {
         this.inspectorView.getNameHolder().addActionListener(e -> {
-            this.inspectorModel.setSelectedName(this.inspectorView.getNameHolder().getSelectedItem().toString());
+            this.inspectorModel.setSelectedName((String) this.inspectorView.getNameHolder().getSelectedItem());
+            this.inspectorView.updateRankHolder(this.inspectorModel.getAllRanks());
+            this.inspectorModel.setSelectedRank((String) this.inspectorView.getRankHolder().getSelectedItem());
+            System.out.println("Name listener: " + this.inspectorView.getRankHolder().getSelectedItem());
         });
 
         this.inspectorView.getNameHolder().addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                inspectorModel.setSelectedName(inspectorView.getNameHolder().getSelectedItem().toString());
+                inspectorModel.setSelectedName((String) inspectorView.getNameHolder().getSelectedItem());
+                inspectorView.updateRankHolder(inspectorModel.getAllRanks());
+                inspectorModel.setSelectedRank((String) inspectorView.getRankHolder().getSelectedItem());
+                System.out.println("Name listener: " + inspectorView.getRankHolder().getSelectedItem());
             }
         });
 
         this.inspectorView.getRankHolder().addActionListener(e -> {
-            this.inspectorModel.setSelectedRank(this.inspectorView.getRankHolder().getSelectedItem().toString());
+            this.inspectorModel.setSelectedRank((String) this.inspectorView.getRankHolder().getSelectedItem());
+            System.out.println("Rank ActionListener: " + this.inspectorView.getRankHolder().getSelectedItem());
         });
 
         this.inspectorView.getRankHolder().addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                inspectorModel.setSelectedRank(inspectorView.getRankHolder().getSelectedItem().toString());
+                inspectorModel.setSelectedRank((String) inspectorView.getRankHolder().getSelectedItem());
+                System.out.println("Rank FocusListener: " + inspectorView.getRankHolder().getSelectedItem());
             }
         });
 
@@ -77,6 +86,7 @@ public class InspectorController {
         this.inspectorView.getSubmitHolder().addActionListener(e -> {
             this.inspectorView.initGenericTimetableTable(this.inspectorModel.getEmployeeGenericTimetable());
             this.inspectorView.initSpecificTimetableTable(this.inspectorModel.getEmployeeSpecificTimetable());
+            this.inspectorView.initEmployeeVacationsTable(this.inspectorModel.getEmployeeVacations());
         });
 
     }

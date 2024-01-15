@@ -1,5 +1,6 @@
 package model;
 
+import model.hr.EmployeeVacation;
 import model.hr.GenericTimetable;
 import model.hr.SpecificTimetable;
 
@@ -345,10 +346,12 @@ public class DatabaseService {
 		return employeeNames;
 	}
 
-	public Vector<String> getAllRanks() throws SQLException {
-		String statement = "CALL get_all_ranks()";
+	public Vector<String> getAllRanks(String _name, String _surname) throws SQLException {
+		String statement = "CALL get_all_ranks(?, ?)";
 		CallableStatement cs = connection.prepareCall(statement);
 
+		cs.setString(1, _name);
+		cs.setString(2, _surname);
 		ResultSet resultSet = cs.executeQuery();
 
 		Vector<String> rankNames = new Vector<>();
@@ -358,11 +361,28 @@ public class DatabaseService {
 		return rankNames;
 	}
 
-	public Vector<GenericTimetable> getEmployeeGenericTimetable(String _name, String _surname) throws SQLException {
+	public String getEmployeeCnp(String _name, String _surname, String _rank) throws SQLException {
+		String statement = "SELECT get_employee_cnp(?, ?, ?) AS cnp_employee";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _name);
+		preparedStatement.setString(2, _surname);
+		preparedStatement.setString(3, _rank);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("cnp_employee");
+		}
+		return "";
+	}
+
+	public Vector<GenericTimetable> getEmployeeGenericTimetable(String _name, String _surname, String _rank) throws SQLException {
 		String statement = "CALL get_employee_generic_timetable(?)";
 		CallableStatement cs = connection.prepareCall(statement);
 
-		cs.setString(1, this.getMedicCnpByName(_name, _surname));
+		cs.setString(1, this.getEmployeeCnp(_name, _surname, _rank));
 
 		ResultSet resultSet = cs.executeQuery();
 
@@ -374,11 +394,11 @@ public class DatabaseService {
 		return genericTimetable;
 	}
 
-	public Vector<SpecificTimetable> getEmployeeSpecificTimetable(String _name, String _surname, Date _month) throws SQLException {
+	public Vector<SpecificTimetable> getEmployeeSpecificTimetable(String _name, String _surname, String _rank, Date _month) throws SQLException {
 		String statement = "CALL get_employee_specific_timetable(?, ?)";
 		CallableStatement cs = connection.prepareCall(statement);
 
-		cs.setString(1, this.getMedicCnpByName(_name, _surname));
+		cs.setString(1, this.getEmployeeCnp(_name, _surname, _rank));
 		cs.setDate(2, _month);
 
 		ResultSet resultSet = cs.executeQuery();
@@ -389,6 +409,22 @@ public class DatabaseService {
 					resultSet.getTime("ora_terminare"), resultSet.getString("denumire_unitate_medicala")));
 		}
 		return specificTimetable;
+	}
+
+	public Vector<EmployeeVacation> getEmployeeVacations(String _name, String _surname, String _rank, Date _month) throws SQLException {
+		String statement = "CALL get_employee_vacations(?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, this.getEmployeeCnp(_name, _surname, _rank));
+		cs.setDate(2, _month);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<EmployeeVacation> employeeVacations = new Vector<>();
+		while (resultSet.next()) {
+			employeeVacations.add(new EmployeeVacation(resultSet.getDate("data_incepere"), resultSet.getDate("data_terminare")));
+		}
+		return employeeVacations;
 	}
 
 

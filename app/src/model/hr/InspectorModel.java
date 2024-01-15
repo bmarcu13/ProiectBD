@@ -79,8 +79,12 @@ public class InspectorModel {
     }
 
     public Vector<String> getAllRanks() {
+        String[] nameParts = this.selectedName.split(" ");
+        String name = nameParts.length > 0 ? nameParts[0] : "";
+        String surname = nameParts.length > 1 ? nameParts[1] : "";
+
         try {
-            Vector<String> ranks = this.databaseService.getAllRanks();
+            Vector<String> ranks = this.databaseService.getAllRanks(name, surname);
             this.setSelectedRank(ranks.getFirst());
             return ranks;
         } catch(SQLException ex) {
@@ -95,7 +99,7 @@ public class InspectorModel {
         String surname = nameParts.length > 1 ? nameParts[1] : "";
 
         try {
-            return this.databaseService.getEmployeeGenericTimetable(name, surname);
+            return this.databaseService.getEmployeeGenericTimetable(name, surname, this.selectedRank);
         } catch(SQLException ex) {
             ex.printStackTrace();
             return new Vector<>();
@@ -116,7 +120,28 @@ public class InspectorModel {
 
         Date date = new Date(millis);
         try {
-            return this.databaseService.getEmployeeSpecificTimetable(name, surname, date);
+            return this.databaseService.getEmployeeSpecificTimetable(name, surname, this.selectedRank, date);
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+            return new Vector<>();
+        }
+    }
+
+    public Vector<EmployeeVacation> getEmployeeVacations() {
+        String[] nameParts = this.selectedName.split(" ");
+        String name = nameParts.length > 0 ? nameParts[0] : "";
+        String surname = nameParts.length > 1 ? nameParts[1] : "";
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, this.selectedYear);
+        calendar.set(Calendar.MONTH, this.convertMonth(this.selectedMonth) - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+        long millis = calendar.getTimeInMillis();
+
+        Date date = new Date(millis);
+        try {
+            return this.databaseService.getEmployeeVacations(name, surname, this.selectedRank, date);
         } catch(SQLException ex) {
             ex.printStackTrace();
             return new Vector<>();
