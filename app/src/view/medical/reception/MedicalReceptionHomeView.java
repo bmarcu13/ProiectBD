@@ -1,4 +1,4 @@
-package view.medical;
+package view.medical.reception;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import model.Appointment;
-import view.medical.resources.PatientRegistrationSection;
+import view.medical.resources.AppointmentSection;
 
 public class MedicalReceptionHomeView extends JPanel{
 	private JPanel createAppointmentButtonContainer = new JPanel();
@@ -31,6 +31,8 @@ public class MedicalReceptionHomeView extends JPanel{
 	
 	private JButton createAppointmentButton = new JButton("Creeaza programare");
 	
+	private ActionListener registerButtonActionListener;
+	
 	public MedicalReceptionHomeView()
 	{
 		setLayout(new BorderLayout());
@@ -42,26 +44,37 @@ public class MedicalReceptionHomeView extends JPanel{
 		leftPanelScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		leftPanel.setLayout(leftPanelBoxLayout);
 		rightPanelScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		rightPanel.setBackground(Color.CYAN);
 		basePanel.add(leftPanelScrollPane);
 		basePanel.add(rightPanelScrollPane);
 		add(basePanel, BorderLayout.CENTER);
 	}
 	
+	//Make sure setRegisterButtonActionListener was called with a valid argument before calling this function
 	public void renderUnregisteredAppointments(Vector<Appointment> appointments)
 	{
+		leftPanel.removeAll();
 		leftPanel.add(Box.createVerticalStrut(5));
+		int index = 0;
 		for(Appointment a : appointments)
 		{	
-			PatientRegistrationSection s  = new PatientRegistrationSection(a.getPatientFirstName(), a.getPatientSecondName(), a.getTime());
+			AppointmentSection s  = new AppointmentSection(a.getId(), a.getPatientFirstName(), a.getPatientSecondName(), a.getTime(), "Inregistrare");
 			s.setMaximumSize(new Dimension(310, 50));
+			if(registerButtonActionListener != null)			
+				s.setButtonActionListener(registerButtonActionListener);
 			leftPanel.add(s);
 			leftPanel.add(Box.createVerticalStrut(5));
 		}
+		leftPanel.revalidate();
+		leftPanel.repaint();
 	}
 	
 	public void addCreateAppointmentButtonListener(ActionListener actionListener)
 	{
 		createAppointmentButton.addActionListener(actionListener);
+	}
+	
+	public void setRegisterButtonActionListener(ActionListener al)
+	{
+		registerButtonActionListener = al;
 	}
 }

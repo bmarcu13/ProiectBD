@@ -1,4 +1,4 @@
-package view.medical;
+package view.medical.reception;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -164,6 +164,7 @@ public class CreateAppointmentView extends JPanel{
 	
 	public void clearFields()
 	{
+		patientSecondNameField.setText("");
 		patientFirstNameField.setText("");
 		patientCNPField.setText("");
 		timeField.setText("");
@@ -188,7 +189,7 @@ public class CreateAppointmentView extends JPanel{
 	
 	public String getPatientSecondName()
 	{
-		return patientCNPField.getText();
+		return patientSecondNameField.getText();
 	}
 	
 	public String getPatientCNP()

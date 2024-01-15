@@ -15,6 +15,14 @@ public class Appointment {
 		this.patientSecondName = patientSecondName;
 		this.time = time;
 	}
+	
+	public Appointment(int id, String patientFirstName, String patientSecondName, LocalTime time, boolean isRegistered) {
+		this.id = id;
+		this.patientFirstName = patientFirstName;
+		this.patientSecondName = patientSecondName;
+		this.time = time;
+		this.isRegistered = isRegistered;
+	}
 
 	public int getId() {
 		return id;
