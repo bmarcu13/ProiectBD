@@ -427,6 +427,54 @@ public class DatabaseService {
 		return employeeVacations;
 	}
 
+	public String getEmployeeName(String _employeeCnp) throws SQLException {
+		String statement = "SELECT get_employee_name(?) AS employee_name";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _employeeCnp);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("employee_name");
+		}
+		return "";
+	}
+
+	public String getEmployeeRank(String _employeeCnp) throws SQLException {
+		String statement = "SELECT get_employee_rank(?) AS employee_rank";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _employeeCnp);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("employee_rank");
+		}
+		return "";
+	}
+
+	public EmployeeInformation getEmployeeInformation(String _employeeCnp) throws SQLException {
+		String statement = "CALL get_employee_information(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, _employeeCnp);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		if (resultSet.next()) {
+			return new EmployeeInformation(resultSet.getString(1), resultSet.getString(2),
+					resultSet.getString(3), resultSet.getString(4), resultSet.getString(5),
+					resultSet.getString(6), resultSet.getString(7), resultSet.getString(8),
+					resultSet.getString(9), resultSet.getInt(10), resultSet.getDate(11),
+					resultSet.getInt(12), resultSet.getInt(13));
+		}
+		return null;
+	}
+
 
 
 }

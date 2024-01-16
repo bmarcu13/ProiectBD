@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import controller.HomePageController;
 import controller.financial.FinancialController;
 import controller.LoginController;
 import controller.MainController;
@@ -12,13 +13,11 @@ import controller.MedicalController;
 import controller.hr.HRManagementController;
 import controller.medical.MedicalReceptionController;
 import model.AuthenticationService;
-import view.ApplicationView;
+import model.HomePageModel;
+import view.*;
 import view.financial.EveryoneView;
 import view.financial.FinancialView;
 import view.hr.HRManagementView;
-import view.LoginView;
-import view.MainView;
-import view.MedicalView;
 import view.medical.CreateAppointmentView;
 import view.medical.MedicalDoctorView;
 import view.medical.MedicalReceptionHomeView;
@@ -34,6 +33,7 @@ public class Application {
 	private FinancialController financialController;
 	private MedicalReceptionController medicalReceptionHomeController;
 	private HRManagementController hrManagementController;
+	private HomePageController homePageController;
 
 	private LoginView loginView = new LoginView();
 	private MainView mainView = new MainView();
@@ -45,14 +45,16 @@ public class Application {
 	private MedicalDoctorView medicalDoctorView = new MedicalDoctorView();
 	private CreateAppointmentView createAppointmentView = new CreateAppointmentView();
 	private EveryoneView everyoneView = new EveryoneView();
+	private HomePageView homePageView = new HomePageView();
 	
 	public Application ()
 	{		
 		Map<String, JPanel> mainPanelChildren = new HashMap<String, JPanel>();
+		mainPanelChildren.put("HOME_PAGE", homePageView);
 		mainPanelChildren.put("HR", hrManagementView);
 		mainPanelChildren.put("FINANCIAL", financialView);
 		mainPanelChildren.put("MEDICAL", medicalView);
-		
+
 		Map<String, JPanel> permissionViewsMedical = new HashMap<String, JPanel>();
 		permissionViewsMedical.put("RECEPTIONIST", medicalReceptionView);
 		permissionViewsMedical.put("DOCTOR", medicalDoctorView);
@@ -63,6 +65,7 @@ public class Application {
 		this.medicalReceptionHomeController = new MedicalReceptionController(medicalReceptionView, medicalReceptionHomeView, createAppointmentView, authenticationService);
 		this.financialController = new FinancialController(this.financialView, this.authenticationService);
 		this.hrManagementController = new HRManagementController(this.hrManagementView, this.authenticationService);
+		this.homePageController = new HomePageController(this.homePageView, new HomePageModel(this.authenticationService));
 	}
 	
 	public void run()

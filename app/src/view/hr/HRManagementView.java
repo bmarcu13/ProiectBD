@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 public class HRManagementView extends JPanel
 {
 
-	private CardLayout cardLayout = new CardLayout();
 	private InspectorView inspectorView;
 	private HRMedicalView hrMedicalView;
 
