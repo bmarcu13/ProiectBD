@@ -7,6 +7,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
+import java.time.Year;
 
 public class EveryoneView extends JPanel {
     private JLabel errorMessage = new JLabel();
@@ -38,6 +39,7 @@ public class EveryoneView extends JPanel {
             this.yearHolder.setFocusLostBehavior(JFormattedTextField.COMMIT_OR_REVERT);
             this.yearHolder.setPreferredSize(new Dimension(50, 18));
             this.yearHolder.setHorizontalAlignment(JTextField.CENTER);
+            this.yearHolder.setText(Integer.toString(Year.now().getValue()));
 
             datePanel.add(this.yearHolderLabel);
             datePanel.add(this.yearHolder);

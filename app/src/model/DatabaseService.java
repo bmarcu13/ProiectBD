@@ -475,6 +475,21 @@ public class DatabaseService {
 		return null;
 	}
 
+	public int getMedicCommission(String _medicCnp) throws SQLException {
+		String statement = "SELECT get_commission(?) AS commission";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _medicCnp);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("commission");
+		}
+		return 0;
+	}
+
 
 
 }

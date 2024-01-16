@@ -9,12 +9,13 @@ import model.DatabaseService;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.time.Year;
 import java.util.Calendar;
 public class EveryoneModel {
     protected final DatabaseService databaseService;
     protected String selectedMonth = "Ianuarie";
     protected final String cnp;
-    protected int year;
+    protected int year = Year.now().getValue();
     public EveryoneModel(AuthenticationService authenticationService) {
         this.databaseService = DatabaseService.getInstance();
 

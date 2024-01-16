@@ -5,6 +5,7 @@ import model.DatabaseService;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.Vector;
 public class ExpertModel {
     DatabaseService databaseService = DatabaseService.getInstance();
     private String selectedMonth = "Ianuarie";
-    private int year;
+    private int year = Year.now().getValue();
     private HashMap<Integer, String> medicalUnits;
     private String selectedName = "";
     private String selectedMedicProfitsMonth = "Ianuarie";

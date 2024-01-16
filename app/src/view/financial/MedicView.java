@@ -34,7 +34,7 @@ public class MedicView extends JPanel {
     }
 
     public void initTable(Object[][] tableData) {
-        String[] columnNames = {"Unitate medicala", "ID unitate", "Venit generat", "Salariu", "Profit generat"};
+        String[] columnNames = {"Unitate medicala", "ID unitate", "Venit generat", "Salariu", "Comision", "Profit generat"};
         if (!this.setTable) {
             this.model = new DefaultTableModel(tableData, columnNames) {
                 @Override
