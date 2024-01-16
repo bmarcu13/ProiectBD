@@ -62,7 +62,6 @@ public class MedicProfitsController {
                     this.medicSalary = this.medicProfitsModel.getMedicSalary();
                     this.medicTotalProfit.add(this.medicProfitsModel.getMedicProfitOnOneUnit(this.workingUnitIDs.get(i)));
                     _medicView.initTable(convertIntoTableData());
-                    System.out.println("{ " + this.medicalUnitNames.get(i) + " " + this.workingUnitIDs.get(i) + " " + this.medicGeneratedProfit.get(i) + " " + this.medicSalary + " " + this.medicTotalProfit.get(i) + " }\n");
                 }
             } catch (SQLException ex) {
                 this.medicProfitsView.showErrorMessage(ex.getMessage());
