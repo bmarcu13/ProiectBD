@@ -48,7 +48,7 @@ public class LoginController
 		}
 		catch(SQLException ex)
 		{
-			System.out.println(ex.toString());
+			ex.printStackTrace();
 			loginView.setErrorMessage("Internal error.");
 			loginView.showError();
 		}
@@ -56,7 +56,7 @@ public class LoginController
 		{
 			loginView.setErrorMessage("Incorrect credentials.");
 			loginView.showError();
-			System.out.println(ex);
+			ex.printStackTrace();
 		}
 	}
 	

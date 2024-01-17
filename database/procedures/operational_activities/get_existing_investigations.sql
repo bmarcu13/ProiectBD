@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_existing_investigations`(
 	in p_id_programare int
 )
@@ -7,3 +8,5 @@ BEGIN
     INNER JOIN analiza ON rezultat_analiza.id_analiza = analiza.id_analiza
     WHERE id_programare = p_id_programare;
 END
+//
+DELIMITER;

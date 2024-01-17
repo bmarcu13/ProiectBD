@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_appointments`(
 	in p_data DATE, 
     in p_cnp_medic VARCHAR(13)
@@ -14,3 +15,5 @@ BEGIN
     WHERE rm.id_programare = programare.id_programare)
     = 0;
 END
+//
+DELIMITER;

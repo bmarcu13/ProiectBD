@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_medical_report`(
 	in p_id_programare int,
     in p_nume_medic_recomandare varchar(20),
@@ -39,3 +40,5 @@ BEGIN
 	);
     
 END
+//
+DELIMITER;

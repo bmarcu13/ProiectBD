@@ -1,3 +1,4 @@
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_investigation_result`(
 	in p_id_analiza INT,
     in p_id_programare INT, 
@@ -10,3 +11,5 @@ BEGIN
 		valoare = p_valoare,
         pozitiv_negativ = p_pozitiv_negativ;
 END
+//
+DELIMITER;

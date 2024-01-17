@@ -165,6 +165,7 @@ public class DatabaseService {
 		return 0;
 	}
 
+	//deprecated
 	public String getUserCnp(String userEmail) throws SQLException {
 		String statement = "SELECT get_user_cnp(?) AS user_cnp";
 		PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -542,5 +543,61 @@ public class DatabaseService {
 		}
 		
 		cs.execute();
+	}
+	
+	public String getPatientCNP(int idProgramare) throws SQLException
+	{
+		String statement = "SELECT cnp_pacient FROM programare WHERE id_programare=" + idProgramare;
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		ResultSet r = cs.executeQuery();
+		
+		r.next();
+		
+		return r.getNString(1);
+	}
+	
+	public Vector<MedicalReport> getMedicalReports(String pacientCNP) throws SQLException
+	{
+		String statement = "CALL get_medical_reports(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+		
+		Vector<MedicalReport> medicalReports = new Vector<MedicalReport>();
+		
+		cs.setNString(1, pacientCNP);
+		
+		ResultSet results = cs.executeQuery();
+		
+		String servicesStatement = "CALL get_services_for_report(?)";
+		
+		while(results.next())
+		{
+			CallableStatement cs2 = connection.prepareCall(servicesStatement);
+			cs2.setInt(1, results.getInt(1));
+			ResultSet rs = cs2.executeQuery();
+			Vector<Investigation> services = new Vector<Investigation>();
+			while(rs.next())
+			{
+				Investigation selectedInvestigation = new Investigation(0, rs.getNString(1));
+				Vector<Investigation> selectedInvestigationVector = new Vector<Investigation>();
+				selectedInvestigationVector.add(selectedInvestigation);
+				
+				Investigation service = new Investigation(selectedInvestigationVector);
+				service.setRawValue(rs.getNString(2));
+				
+				services.add(service);
+			}
+			
+			MedicalReport mr = new MedicalReport();
+			mr.setDate(results.getDate(2).toLocalDate());
+			mr.setSimptoms(results.getNString(3));
+			mr.setDiagnosis(results.getNString(4));
+			mr.setRecommendations(results.getNString(5));
+			mr.setServices(services);
+			
+			medicalReports.add(mr);
+		}
+		
+		return medicalReports;
 	}
 }

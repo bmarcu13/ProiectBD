@@ -80,7 +80,7 @@ public class Application {
 		this.medicalAssistentController = new MedicalAssistentController(medicalAssistentView, medicalAssistentHomeView, medicalAssistentInvestigationsView, authenticationService);
 		this.medicalDoctorController = new MedicalDoctorController(medicalDoctorHomeView, authenticationService);
     
-    this.financialController = new FinancialController(this.financialView, this.authenticationService);
+		this.financialController = new FinancialController(this.financialView, this.authenticationService);
 	}
 	
 	public void run()
