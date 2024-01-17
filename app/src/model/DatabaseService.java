@@ -1,5 +1,9 @@
 package model;
 
+import model.hr.EmployeeVacation;
+import model.hr.GenericTimetable;
+import model.hr.SpecificTimetable;
+
 import java.net.PasswordAuthentication;
 import java.sql.*;
 import java.time.LocalDate;
@@ -331,6 +335,164 @@ public class DatabaseService {
 		}
 		return "";
 	}
+
+	public Vector<String> getAllEmployeeNames() throws SQLException {
+		String statement = "CALL get_all_employee_names()";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<String> employeeNames = new Vector<>();
+		while (resultSet.next()) {
+			employeeNames.add(resultSet.getString("nume"));
+		}
+		return employeeNames;
+	}
+
+	public Vector<String> getAllRanks(String _name, String _surname) throws SQLException {
+		String statement = "CALL get_all_ranks(?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, _name);
+		cs.setString(2, _surname);
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<String> rankNames = new Vector<>();
+		while (resultSet.next()) {
+			rankNames.add(resultSet.getString("denumire_functie"));
+		}
+		return rankNames;
+	}
+
+	public String getEmployeeCnp(String _name, String _surname, String _rank) throws SQLException {
+		String statement = "SELECT get_employee_cnp(?, ?, ?) AS cnp_employee";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _name);
+		preparedStatement.setString(2, _surname);
+		preparedStatement.setString(3, _rank);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("cnp_employee");
+		}
+		return "";
+	}
+
+	public Vector<GenericTimetable> getEmployeeGenericTimetable(String _name, String _surname, String _rank) throws SQLException {
+		String statement = "CALL get_employee_generic_timetable(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, this.getEmployeeCnp(_name, _surname, _rank));
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<GenericTimetable> genericTimetable = new Vector<>();
+		while (resultSet.next()) {
+			genericTimetable.add(new GenericTimetable(resultSet.getString("zi"), resultSet.getTime("ora_incepere"),
+					resultSet.getTime("ora_terminare"), resultSet.getString("denumire_unitate_medicala")));
+		}
+		return genericTimetable;
+	}
+
+	public Vector<SpecificTimetable> getEmployeeSpecificTimetable(String _name, String _surname, String _rank, Date _month) throws SQLException {
+		String statement = "CALL get_employee_specific_timetable(?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, this.getEmployeeCnp(_name, _surname, _rank));
+		cs.setDate(2, _month);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<SpecificTimetable> specificTimetable = new Vector<>();
+		while (resultSet.next()) {
+			specificTimetable.add(new SpecificTimetable(resultSet.getDate("data"), resultSet.getTime("ora_incepere"),
+					resultSet.getTime("ora_terminare"), resultSet.getString("denumire_unitate_medicala")));
+		}
+		return specificTimetable;
+	}
+
+	public Vector<EmployeeVacation> getEmployeeVacations(String _name, String _surname, String _rank, Date _month) throws SQLException {
+		String statement = "CALL get_employee_vacations(?, ?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, this.getEmployeeCnp(_name, _surname, _rank));
+		cs.setDate(2, _month);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		Vector<EmployeeVacation> employeeVacations = new Vector<>();
+		while (resultSet.next()) {
+			employeeVacations.add(new EmployeeVacation(resultSet.getDate("data_incepere"), resultSet.getDate("data_terminare")));
+		}
+		return employeeVacations;
+	}
+
+	public String getEmployeeName(String _employeeCnp) throws SQLException {
+		String statement = "SELECT get_employee_name(?) AS employee_name";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _employeeCnp);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("employee_name");
+		}
+		return "";
+	}
+
+	public String getEmployeeRank(String _employeeCnp) throws SQLException {
+		String statement = "SELECT get_employee_rank(?) AS employee_rank";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _employeeCnp);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getString("employee_rank");
+		}
+		return "";
+	}
+
+	public EmployeeInformation getEmployeeInformation(String _employeeCnp) throws SQLException {
+		String statement = "CALL get_employee_information(?)";
+		CallableStatement cs = connection.prepareCall(statement);
+
+		cs.setString(1, _employeeCnp);
+
+		ResultSet resultSet = cs.executeQuery();
+
+		if (resultSet.next()) {
+			return new EmployeeInformation(resultSet.getString(1), resultSet.getString(2),
+					resultSet.getString(3), resultSet.getString(4), resultSet.getString(5),
+					resultSet.getString(6), resultSet.getString(7), resultSet.getString(8),
+					resultSet.getString(9), resultSet.getInt(10), resultSet.getDate(11),
+					resultSet.getInt(12), resultSet.getInt(13));
+		}
+		return null;
+	}
+
+	public int getMedicCommission(String _medicCnp) throws SQLException {
+		String statement = "SELECT get_commission(?) AS commission";
+
+		PreparedStatement preparedStatement = connection.prepareStatement(statement);
+
+		preparedStatement.setString(1, _medicCnp);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		if (resultSet.next()) {
+			return resultSet.getInt("commission");
+		}
+		return 0;
+	}
+
 
 	public Vector<Appointment> getRegisteredAppointments() throws SQLException
 	{

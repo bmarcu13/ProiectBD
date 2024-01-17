@@ -5,18 +5,22 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import controller.financial.EveryoneController;
+import controller.HomePageController;
 import controller.financial.FinancialController;
 import controller.LoginController;
 import controller.MainController;
 import controller.MedicalController;
+import controller.hr.HRManagementController;
 import controller.medical.MedicalAssistentController;
 import controller.medical.MedicalDoctorController;
 import controller.medical.MedicalReceptionController;
 import model.AuthenticationService;
-import view.ApplicationView;
+import model.HomePageModel;
+import view.*;
 import view.financial.EveryoneView;
 import view.financial.FinancialView;
+
+import view.hr.HRManagementView;
 import view.HRManagementView;
 import view.LoginView;
 import view.MainView;
@@ -40,6 +44,10 @@ public class Application {
 	private FinancialController financialController;
   
 	private MedicalReceptionController medicalReceptionHomeController;
+
+	private HRManagementController hrManagementController;
+	private HomePageController homePageController;
+
 	private MedicalAssistentController medicalAssistentController;
 	private MedicalDoctorController medicalDoctorController;
 
@@ -56,6 +64,7 @@ public class Application {
 	private CreateAppointmentView createAppointmentView = new CreateAppointmentView();
 
 	private EveryoneView everyoneView = new EveryoneView();
+	private HomePageView homePageView = new HomePageView();
   
 	private MedicalAssistentHomeView medicalAssistentHomeView = new MedicalAssistentHomeView();
 	private MedicalAssistentInvestigationsView medicalAssistentInvestigationsView = new MedicalAssistentInvestigationsView();
@@ -64,10 +73,11 @@ public class Application {
 	public Application ()
 	{		
 		Map<String, JPanel> mainPanelChildren = new HashMap<String, JPanel>();
+		mainPanelChildren.put("HOME_PAGE", homePageView);
 		mainPanelChildren.put("HR", hrManagementView);
 		mainPanelChildren.put("FINANCIAL", financialView);
 		mainPanelChildren.put("MEDICAL", medicalView);
-		
+
 		Map<String, JPanel> permissionViewsMedical = new HashMap<String, JPanel>();
 		permissionViewsMedical.put("RECEPTIONIST", medicalReceptionView);
 		permissionViewsMedical.put("ASSISTENT", medicalAssistentView);
@@ -77,6 +87,9 @@ public class Application {
 		this.mainController = new MainController(mainView, authenticationService, applicationView, mainPanelChildren);
 		this.medicalController = new MedicalController(medicalView, authenticationService, mainView, permissionViewsMedical);
 		this.medicalReceptionHomeController = new MedicalReceptionController(medicalReceptionView, medicalReceptionHomeView, createAppointmentView, authenticationService);
+
+		this.hrManagementController = new HRManagementController(this.hrManagementView, this.authenticationService);
+		this.homePageController = new HomePageController(this.homePageView, new HomePageModel(this.authenticationService));
 		this.medicalAssistentController = new MedicalAssistentController(medicalAssistentView, medicalAssistentHomeView, medicalAssistentInvestigationsView, authenticationService);
 		this.medicalDoctorController = new MedicalDoctorController(medicalDoctorHomeView, authenticationService);
     
