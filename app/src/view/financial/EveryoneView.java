@@ -7,6 +7,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
+import java.time.Year;
 
 public class EveryoneView extends JPanel {
     private JLabel errorMessage = new JLabel();
@@ -32,13 +33,13 @@ public class EveryoneView extends JPanel {
         try {
             MaskFormatter formatter = new MaskFormatter("####");
             formatter.setValidCharacters("0123456789");
-            formatter.setPlaceholderCharacter('_');
 
             this.yearHolder = new JFormattedTextField();
             this.yearHolder.setFormatterFactory(new DefaultFormatterFactory(formatter));
             this.yearHolder.setFocusLostBehavior(JFormattedTextField.COMMIT_OR_REVERT);
             this.yearHolder.setPreferredSize(new Dimension(50, 18));
             this.yearHolder.setHorizontalAlignment(JTextField.CENTER);
+            this.yearHolder.setText(Integer.toString(Year.now().getValue()));
 
             datePanel.add(this.yearHolderLabel);
             datePanel.add(this.yearHolder);

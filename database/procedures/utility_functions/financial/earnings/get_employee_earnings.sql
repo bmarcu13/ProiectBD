@@ -14,7 +14,7 @@ END IF;
 SET workedHours = time_to_sec(get_employee_worked_hours(_employee_cnp, _month));
 SET requiredHours = get_required_nr_of_hours(_employee_cnp) * 60 * 60;
 
-SET salary = get_employee_salary(_employee_cnp) * workedHours/requiredHours;
+SET salary = get_employee_salary(_employee_cnp) * LEAST(workedHours, requiredHours)/requiredHours;
 
 RETURN salary;
 

@@ -42,5 +42,9 @@ public class MainController
 		{
 			mainView.switchTab(MainView.MEDICAL_TAB);
 		});
+
+		mainView.setHomePageButtonListener(e -> {
+			mainView.switchTab(MainView.HOME_PAGE_TAB);
+		});
 	}
 }

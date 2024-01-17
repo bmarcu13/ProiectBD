@@ -19,15 +19,17 @@ public class MainView extends JPanel
 	
 	private JPanel menuContainer = new JPanel(new GridLayout(1, 3));
 	private JPanel pageContainer = new JPanel(cardLayout);
-	
+
+	private JButton homePageButton = new JButton("Acasa");
 	private JButton module1Button = new JButton("Gestiune Resurse Umane");
 	private JButton module2Button = new JButton("Financiar Contabil");
 	private JButton module3Button = new JButton("Medical");
-	
+
+	public final static String HOME_PAGE_TAB = "HOME_PAGE";
 	public final static String HR_TAB = "HR";
 	public final static String FINANCIAL_TAB = "FINANCIAL";
 	public final static String MEDICAL_TAB = "MEDICAL";
-	
+
 	public MainView()
 	{
 		initComponent();
@@ -37,11 +39,12 @@ public class MainView extends JPanel
 		setLayout(new BorderLayout());
 		
 		menuContainer.setPreferredSize(new Dimension(getWidth(), 40));
-		
+
+		menuContainer.add(homePageButton);
 		menuContainer.add(module1Button);
 		menuContainer.add(module2Button);
 		menuContainer.add(module3Button);
-		
+
 		add(menuContainer, BorderLayout.NORTH);
 		add(pageContainer, BorderLayout.CENTER);
 	}
@@ -84,5 +87,13 @@ public class MainView extends JPanel
 		}
 		
 		module3Button.addActionListener(_actionListener);
+	}
+
+	public void setHomePageButtonListener(ActionListener _actionListener) {
+		if (homePageButton.getActionListeners().length > 0) {
+			homePageButton.removeActionListener(homePageButton.getActionListeners()[0]);
+		}
+
+		homePageButton.addActionListener(_actionListener);
 	}
 }

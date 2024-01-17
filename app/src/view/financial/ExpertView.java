@@ -10,6 +10,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
@@ -59,12 +60,12 @@ public class ExpertView extends JPanel {
         try {
             MaskFormatter formatter = new MaskFormatter("####");
             formatter.setValidCharacters("0123456789");
-            formatter.setPlaceholderCharacter('_');
 
             this.yearHolder.setFormatterFactory(new DefaultFormatterFactory(formatter));
             this.yearHolder.setFocusLostBehavior(JFormattedTextField.COMMIT_OR_REVERT);
             this.yearHolder.setPreferredSize(new Dimension(50, 18));
             this.yearHolder.setHorizontalAlignment(JTextField.CENTER);
+            this.yearHolder.setText(Integer.toString(Year.now().getValue()));
 
             this.datePanel.add(this.yearHolderLabel);
             this.datePanel.add(this.yearHolder);
@@ -235,6 +236,7 @@ public class ExpertView extends JPanel {
             this.viewMedicProfitsContainer.add(this.profitsTableScrollPane);
             this.viewMedicProfitsContainer.revalidate();
             this.viewMedicProfitsContainer.repaint();
+            return;
         }
 
         this.profitsModel.setDataVector(customTableData, new Vector<>(Arrays.asList(columnNames)));
