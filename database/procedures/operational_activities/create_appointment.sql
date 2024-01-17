@@ -7,8 +7,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `create_appointment`(
     in p_data DATE,
     in p_ora TIME,
     in p_durata TIME,
-    out p_id INT,
-    out p_success TINYINT 
+    out p_id INT
     )
 BEGIN
 	DECLARE var_resultsNr INT;
@@ -16,6 +15,7 @@ BEGIN
 	SELECT COUNT(*) INTO var_resultsNr
     FROM programare
     WHERE p_data = programare.data_programare 
+    AND p_cnp_medic = programare.cnp_medic
     AND (p_ora 
 		between programare.ora_programare 
         and ADDTIME(programare.ora_programare, programare.durata_programare)
@@ -24,10 +24,8 @@ BEGIN
         and ADDTIME(programare.ora_programare, programare.durata_programare));
         
 	IF var_resultsNr > 0 THEN 
-		SET p_success = 0;
+		SET p_id = -1;
 	ELSE 
-		SET p_success = 1;
-    
 		SELECT COUNT(*) INTO var_resultsNr
         FROM pacient
         WHERE p_cnp_pacient = pacient.cnp_pacient;
@@ -58,7 +56,7 @@ BEGIN
             p_durata
         );
         
-		SET p_id = LAST_INSERT_ID();
+		SET p_id = last_insert_id();
     END IF;
 END
 //

@@ -7,13 +7,16 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JButton;
+
 import model.AuthenticationService;
 import model.DatabaseService;
 import model.Doctor;
 import model.MedicalService;
-import view.medical.CreateAppointmentView;
-import view.medical.MedicalReceptionHomeView;
-import view.medical.MedicalReceptionView;
+import view.medical.reception.CreateAppointmentView;
+import view.medical.reception.MedicalReceptionHomeView;
+import view.medical.reception.MedicalReceptionView;
+import view.medical.resources.AppointmentSection;
 
 public class MedicalReceptionController {
 	private MedicalReceptionView receptionView;
@@ -48,6 +51,20 @@ public class MedicalReceptionController {
 	
 	private void handleHomeView()
 	{
+		homeView.setRegisterButtonActionListener(e ->
+		{
+			JButton source = (JButton) e.getSource();
+			try
+			{
+				databaseService.registerPatientForAppointment(Integer.valueOf(source.getName()));
+				homeView.renderUnregisteredAppointments(databaseService.getUnregisteredAppointments());
+			}
+			catch (SQLException ex) 
+			{
+				System.out.println(ex);
+			}
+		});
+		
 		authenticationService.addCallback(() -> 
 		{				
 			try {
@@ -201,6 +218,15 @@ public class MedicalReceptionController {
 			appointmentView.hideMessage();
 			appointmentView.displaySuccessMessage();
 			appointmentView.clearFields();
+			
+			try
+			{
+				homeView.renderUnregisteredAppointments(databaseService.getUnregisteredAppointments());
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex);
+			}
 		});
 	}
 }

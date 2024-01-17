@@ -6,7 +6,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import model.AuthenticationService;
-import view.medical.MedicalReceptionView;
+import view.medical.reception.MedicalReceptionView;
 
 public class MedicalView extends JPanel
 {
