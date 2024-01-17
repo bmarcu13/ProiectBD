@@ -21,7 +21,6 @@ import view.financial.EveryoneView;
 import view.financial.FinancialView;
 
 import view.hr.HRManagementView;
-import view.HRManagementView;
 import view.LoginView;
 import view.MainView;
 import view.MedicalView;
