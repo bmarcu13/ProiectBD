@@ -31,17 +31,20 @@ import model.Investigation;
 import model.MedicalReport;
 import view.medical.resources.AppointmentSection;
 import view.medical.resources.InvestigationSection;
+import view.medical.resources.MedicalReportSection;
 
 public class MedicalDoctorHomeView extends JPanel{
 	private JPanel appointmentsPanel = new JPanel();
 	private JPanel appointmentDetailsPanel = new JPanel();
 	private JPanel investigationsPanel = new JPanel();
+	private JPanel medicalReportsPanel = new JPanel();
 	
 	private JScrollPane appointmentsPanelScrollPane = new JScrollPane(appointmentsPanel);
 	private JScrollPane appointmentDetailsPanelScrollPane = new JScrollPane(appointmentDetailsPanel);
 	
 	private BoxLayout appointmentsPanelBoxLayout = new BoxLayout(appointmentsPanel, BoxLayout.Y_AXIS);
 	private BoxLayout investigationsPanelBoxLayout = new BoxLayout(investigationsPanel, BoxLayout.Y_AXIS);
+	private BoxLayout medicalReportsPanelBoxLayout = new BoxLayout(medicalReportsPanel, BoxLayout.Y_AXIS);
 	
 	private JTextField patientFirstNameField = new JTextField();
 	private JTextField patientSecondNameField = new JTextField();
@@ -68,6 +71,7 @@ public class MedicalDoctorHomeView extends JPanel{
 	private JLabel diagnosisLabel = new JLabel("Diagnostic"); 	
 	private JLabel recommandationsLabel = new JLabel("Recomandari"); 	
 	private JLabel servicesLabel = new JLabel("Servicii medicale");
+	private JLabel historyLabel = new JLabel("Istroic");
 	
 	private JButton addServiceButton = new JButton("Adaugare");
 	private JButton parafareButton = new JButton("Parafare");
@@ -256,6 +260,13 @@ public class MedicalDoctorHomeView extends JPanel{
 		constraints.gridy = 18;
 		constraints.gridx = 0;
 		appointmentDetailsPanel.add(parafareButton, constraints);
+		
+		constraints.gridy = 19;
+		appointmentDetailsPanel.add(historyLabel, constraints);
+		
+		constraints.gridy = 20;
+		medicalReportsPanel.setLayout(medicalReportsPanelBoxLayout);
+		appointmentDetailsPanel.add(medicalReportsPanel, constraints);
 	}
 	
 	public void addAppointment(Appointment a, ActionListener al)
@@ -272,9 +283,7 @@ public class MedicalDoctorHomeView extends JPanel{
 	
 	public void removeAppointment(int index)
 	{
-		System.out.println(appointmentSectionList);
 		appointmentSectionList.remove(index);
-		System.out.println(appointmentSectionList);
 		renderAppointments();
 	}
 	
@@ -410,5 +419,17 @@ public class MedicalDoctorHomeView extends JPanel{
 		
 		revalidate();
 		repaint();
+	}
+	
+	public void renderMedicalReports(Vector<MedicalReport> medicalReports)
+	{
+		for (MedicalReport mr : medicalReports)
+		{
+			MedicalReportSection mrs = new MedicalReportSection(mr);
+			medicalReportsPanel.add(mrs);
+		}
+		
+		medicalReportsPanel.revalidate();
+		medicalReportsPanel.repaint();
 	}
 }

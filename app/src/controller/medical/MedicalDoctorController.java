@@ -70,6 +70,10 @@ public class MedicalDoctorController
 									medicalDoctorHomeView.deleteInvestigation(Integer.valueOf(s.getName()));
 								});
 							}
+							
+							String patientCNP = databaseService.getPatientCNP(selectedAppointmentId);
+							medicalDoctorHomeView.renderMedicalReports(databaseService.getMedicalReports(patientCNP));
+							
 							medicalDoctorHomeView.openMedicalReport();
 						}
 						catch(SQLException ex)
@@ -82,7 +86,7 @@ public class MedicalDoctorController
 			}
 			catch(SQLException e)
 			{
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		});
 		

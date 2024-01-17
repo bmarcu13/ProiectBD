@@ -22,7 +22,7 @@ public class EveryoneModel {
         // initialize the cnp of the user
         String temp_cnp;
         try {
-            temp_cnp = this.databaseService.getUserCnp(authenticationService.getEmail());
+            temp_cnp = this.databaseService.getUserCNP(authenticationService.getEmail());
         } catch (SQLException e) {
             temp_cnp = "";
             e.printStackTrace();

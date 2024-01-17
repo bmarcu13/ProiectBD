@@ -39,6 +39,10 @@ public class InvestigationSection extends JPanel{
 		{
 			valueField.setText(String.valueOf(investigation.getValue()));
 		}
+		else if(investigation.getRawValue() != null)
+		{
+			valueField.setText(investigation.getRawValue());
+		}
 		
 		investigationComboBox.setModel(new DefaultComboBoxModel<Investigation>(investigation.getSelectableInvestigations()));
 		
@@ -59,8 +63,6 @@ public class InvestigationSection extends JPanel{
 		investigationComboBox.setMaximumSize(new Dimension(300, 30));
 		investigationComboBox.setBorder(new LineBorder(Color.white, 5));
 		add(investigationComboBox, BorderLayout.WEST);
-		
-//		add(Box.createHorizontalStrut(100));
 		
 		leftPanel.setBackground(Color.white);
 		valueField.setPreferredSize(new Dimension(100, 30));
@@ -106,5 +108,12 @@ public class InvestigationSection extends JPanel{
 	public void setButtonEnabled(boolean isEnabled)
 	{
 		deleteButton.setEnabled(isEnabled);
+	}
+	
+	public void setViewOnly()
+	{
+		valueField.setEnabled(false);
+		deleteButton.setEnabled(false);
+		investigationComboBox.setEnabled(false);
 	}
 }

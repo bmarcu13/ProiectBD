@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.Vector;
 
 public class MedicalReport {
@@ -11,6 +12,8 @@ public class MedicalReport {
 	private int appointmentId;
 	
 	private Vector<Investigation> services;
+	
+	private LocalDate date;
 
 	public String getPatientFirstName() {
 		return patientFirstName;
@@ -116,6 +119,14 @@ public class MedicalReport {
 	public void setAppointmentId(int appointmentId)
 	{
 		this.appointmentId = appointmentId;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 	
 	
