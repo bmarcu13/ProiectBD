@@ -11,7 +11,7 @@ public class HomePageModel {
 
     public EmployeeInformation getEmployeeInformation() {
         try {
-            return this.databaseService.getEmployeeInformation(this.databaseService.getUserCnp(this.authenticationService.getEmail()));
+            return this.databaseService.getEmployeeInformation(this.databaseService.getUserCNP(this.authenticationService.getEmail()));
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;

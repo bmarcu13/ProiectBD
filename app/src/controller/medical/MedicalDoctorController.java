@@ -50,6 +50,7 @@ public class MedicalDoctorController
 					medicalDoctorHomeView.addAppointment(a, e -> 
 					{
 						JButton source = (JButton) e.getSource();
+						medicalDoctorHomeView.resetFields();
 						selectedAppointmentId = Integer.parseInt(source.getName());
 						try
 						{							

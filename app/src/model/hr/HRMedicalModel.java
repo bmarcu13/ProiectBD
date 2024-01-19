@@ -21,7 +21,7 @@ public class HRMedicalModel {
     public HRMedicalModel(AuthenticationService _authenticationService) {
         this.authenticationService = _authenticationService;
         try {
-            this.selectedName = this.databaseService.getEmployeeName(this.databaseService.getUserCnp(this.authenticationService.getEmail()));
+            this.selectedName = this.databaseService.getEmployeeName(this.databaseService.getUserCNP(this.authenticationService.getEmail()));
             System.out.println("Got the name " + this.selectedName);
         } catch(SQLException ex) {
             ex.printStackTrace();
@@ -29,7 +29,7 @@ public class HRMedicalModel {
         }
 
         try {
-            this.selectedRank = this.databaseService.getEmployeeRank(this.databaseService.getUserCnp(this.authenticationService.getEmail()));
+            this.selectedRank = this.databaseService.getEmployeeRank(this.databaseService.getUserCNP(this.authenticationService.getEmail()));
             System.out.println("Got the rank " + this.selectedRank);
         } catch(SQLException ex) {
             ex.printStackTrace();

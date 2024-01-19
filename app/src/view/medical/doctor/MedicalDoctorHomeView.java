@@ -417,6 +417,10 @@ public class MedicalDoctorHomeView extends JPanel{
 		services.clear();
 		nextInvestigationId = 0;
 		
+		medicalReportsPanel.removeAll();
+		investigationsPanel.removeAll();
+		services.clear();
+		
 		revalidate();
 		repaint();
 	}
